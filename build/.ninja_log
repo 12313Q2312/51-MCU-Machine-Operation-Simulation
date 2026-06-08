@@ -1,0 +1,20 @@
+# ninja log v7
+41	708	8026071912776328	tests/CMakeFiles/test_motion.dir/test_motion.cpp.obj	f67aea87452ede98
+57	746	8026071912937435	tests/CMakeFiles/test_protocol.dir/test_protocol.cpp.obj	15ac28359df0af4
+15	757	8026071912523788	CMakeFiles/TrajectorySystem.dir/src/AI.cpp.obj	f00afeca90de1c3e
+9	788	8026071912452787	CMakeFiles/TrajectorySystem.dir/src/motion.cpp.obj	1ad648249ac19ce7
+50	800	8026071912872298	tests/CMakeFiles/test_motion.dir/__/src/motion.cpp.obj	7ce27bcdf62444a9
+21	812	8026071912579753	CMakeFiles/TrajectorySystem.dir/src/protocol.cpp.obj	848e1ac8074d8af9
+64	863	8026071913007451	tests/CMakeFiles/test_protocol.dir/__/src/protocol.cpp.obj	da88cfaddc3a273
+800	1028	8026071920365371	tests/test_motion.exe	dd196f6f1d53a2dd
+863	1103	8026071920995496	tests/test_protocol.exe	c00b265804b5d6b4
+33	1632	8026071912700583	CMakeFiles/TrajectorySystem.dir/src/serial.cpp.obj	ed7a231f00fab87
+2	1643	8026071912391668	CMakeFiles/TrajectorySystem.dir/src/main.cpp.obj	8848f680d9707c8b
+27	2071	8026071912634763	CMakeFiles/TrajectorySystem.dir/src/DSAI.cpp.obj	389f4970eab778df
+2071	2326	8026071933076299	TrajectorySystem.exe	961e7d74f110f6a0
+6	4602	8026078989839854	CMakeFiles/TrajectorySystem.dir/src/main.cpp.obj	8848f680d9707c8b
+13	1264	8026079475049141	CMakeFiles/TrajectorySystem.dir/src/serial.cpp.obj	ed7a231f00fab87
+7	1732	8026079474991414	CMakeFiles/TrajectorySystem.dir/src/DSAI.cpp.obj	389f4970eab778df
+1732	2001	8026079492243403	TrajectorySystem.exe	961e7d74f110f6a0
+6	1698	8026081257992034	CMakeFiles/TrajectorySystem.dir/src/DSAI.cpp.obj	389f4970eab778df
+1699	1958	8026081274911217	TrajectorySystem.exe	961e7d74f110f6a0

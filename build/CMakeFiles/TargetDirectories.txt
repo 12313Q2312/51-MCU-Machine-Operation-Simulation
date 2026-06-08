@@ -1,0 +1,9 @@
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/CMakeFiles/TrajectorySystem.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/CMakeFiles/test.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/CMakeFiles/edit_cache.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/CMakeFiles/rebuild_cache.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests/CMakeFiles/test_motion.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests/CMakeFiles/test_protocol.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests/CMakeFiles/test.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests/CMakeFiles/edit_cache.dir
+G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests/CMakeFiles/rebuild_cache.dir
