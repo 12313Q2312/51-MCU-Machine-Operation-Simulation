@@ -1,34 +1,27 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\",
+  "WorkspaceRootPath": "G:\\\u4E34\u65F6\u50A8\u5B58\u533A\\51-MCU-Machine-Operation-Simulation\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\trajectory.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|solutionrelative:trajectory.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|solutionrelative:AI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|solutionrelative:motion.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|solutionrelative:AI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|solutionrelative:motion.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\trajectory.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\Point.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5920314E-7CD2-472F-8897-84CAEAE90302}|TrajectorySystem.vcxproj|solutionrelative:Point.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\Point.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,60 +35,50 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "AI.cpp",
               "DocumentMoniker": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.cpp",
-              "RelativeDocumentMoniker": "AI.cpp",
               "ToolTip": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.cpp",
-              "RelativeToolTip": "AI.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-05-25T05:45:37.494Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "AI.h",
               "DocumentMoniker": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.h",
-              "RelativeDocumentMoniker": "AI.h",
               "ToolTip": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\AI.h",
-              "RelativeToolTip": "AI.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-05-25T05:41:23.957Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "motion.cpp",
               "DocumentMoniker": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.cpp",
-              "RelativeDocumentMoniker": "motion.cpp",
               "ToolTip": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.cpp",
-              "RelativeToolTip": "motion.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-05-24T03:24:30.386Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "motion.h",
               "DocumentMoniker": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.h",
-              "RelativeDocumentMoniker": "motion.h",
               "ToolTip": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\motion.h",
-              "RelativeToolTip": "motion.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-05-24T03:23:51.528Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "trajectory.txt",
               "DocumentMoniker": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\trajectory.txt",
-              "RelativeDocumentMoniker": "trajectory.txt",
               "ToolTip": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\trajectory.txt",
-              "RelativeToolTip": "trajectory.txt",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
               "WhenOpened": "2026-05-23T07:41:12.522Z"
@@ -105,9 +88,7 @@
               "DocumentIndex": 6,
               "Title": "Point.h",
               "DocumentMoniker": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\Point.h",
-              "RelativeDocumentMoniker": "Point.h",
               "ToolTip": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\Point.h",
-              "RelativeToolTip": "Point.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-05-23T07:39:09.565Z"
@@ -117,9 +98,7 @@
               "DocumentIndex": 0,
               "Title": "main.cpp",
               "DocumentMoniker": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\main.cpp",
-              "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "H:\\\u8BA1\u7B97\u673A\\visual studio\\\u8FDE\u63A5matlab\\TrajectorySystem\\main.cpp",
-              "RelativeToolTip": "main.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-05-23T07:33:40.9Z",

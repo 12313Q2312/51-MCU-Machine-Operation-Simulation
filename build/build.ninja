@@ -34,7 +34,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = G$:/临时储存区/51-MCU-Machine-Operation-Simulation/build/
+cmake_ninja_workdir = G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/
 # =============================================================================
 # Object build statements for EXECUTABLE target TrajectorySystem
 
@@ -44,60 +44,60 @@ cmake_ninja_workdir = G$:/临时储存区/51-MCU-Machine-Operation-Simulation/bu
 
 build cmake_object_order_depends_target_TrajectorySystem: phony || .
 
-build CMakeFiles/TrajectorySystem.dir/src/main.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/main.cpp || cmake_object_order_depends_target_TrajectorySystem
+build CMakeFiles/TrajectorySystem.dir/src/main.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/main.cpp || cmake_object_order_depends_target_TrajectorySystem
   DEP_FILE = CMakeFiles\TrajectorySystem.dir\src\main.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src
   OBJECT_DIR = CMakeFiles\TrajectorySystem.dir
   OBJECT_FILE_DIR = CMakeFiles\TrajectorySystem.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TrajectorySystem.dir\
   TARGET_PDB = TrajectorySystem.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\TrajectorySystem.dir
 
-build CMakeFiles/TrajectorySystem.dir/src/motion.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/motion.cpp || cmake_object_order_depends_target_TrajectorySystem
+build CMakeFiles/TrajectorySystem.dir/src/motion.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/motion.cpp || cmake_object_order_depends_target_TrajectorySystem
   DEP_FILE = CMakeFiles\TrajectorySystem.dir\src\motion.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src
   OBJECT_DIR = CMakeFiles\TrajectorySystem.dir
   OBJECT_FILE_DIR = CMakeFiles\TrajectorySystem.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TrajectorySystem.dir\
   TARGET_PDB = TrajectorySystem.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\TrajectorySystem.dir
 
-build CMakeFiles/TrajectorySystem.dir/src/AI.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/AI.cpp || cmake_object_order_depends_target_TrajectorySystem
+build CMakeFiles/TrajectorySystem.dir/src/AI.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/AI.cpp || cmake_object_order_depends_target_TrajectorySystem
   DEP_FILE = CMakeFiles\TrajectorySystem.dir\src\AI.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src
   OBJECT_DIR = CMakeFiles\TrajectorySystem.dir
   OBJECT_FILE_DIR = CMakeFiles\TrajectorySystem.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TrajectorySystem.dir\
   TARGET_PDB = TrajectorySystem.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\TrajectorySystem.dir
 
-build CMakeFiles/TrajectorySystem.dir/src/protocol.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/protocol.cpp || cmake_object_order_depends_target_TrajectorySystem
+build CMakeFiles/TrajectorySystem.dir/src/protocol.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/protocol.cpp || cmake_object_order_depends_target_TrajectorySystem
   DEP_FILE = CMakeFiles\TrajectorySystem.dir\src\protocol.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src
   OBJECT_DIR = CMakeFiles\TrajectorySystem.dir
   OBJECT_FILE_DIR = CMakeFiles\TrajectorySystem.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TrajectorySystem.dir\
   TARGET_PDB = TrajectorySystem.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\TrajectorySystem.dir
 
-build CMakeFiles/TrajectorySystem.dir/src/DSAI.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/DSAI.cpp || cmake_object_order_depends_target_TrajectorySystem
+build CMakeFiles/TrajectorySystem.dir/src/DSAI.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/DSAI.cpp || cmake_object_order_depends_target_TrajectorySystem
   DEP_FILE = CMakeFiles\TrajectorySystem.dir\src\DSAI.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src
   OBJECT_DIR = CMakeFiles\TrajectorySystem.dir
   OBJECT_FILE_DIR = CMakeFiles\TrajectorySystem.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TrajectorySystem.dir\
   TARGET_PDB = TrajectorySystem.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\TrajectorySystem.dir
 
-build CMakeFiles/TrajectorySystem.dir/src/serial.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/serial.cpp || cmake_object_order_depends_target_TrajectorySystem
+build CMakeFiles/TrajectorySystem.dir/src/serial.cpp.obj: CXX_COMPILER__TrajectorySystem_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/serial.cpp || cmake_object_order_depends_target_TrajectorySystem
   DEP_FILE = CMakeFiles\TrajectorySystem.dir\src\serial.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src
   OBJECT_DIR = CMakeFiles\TrajectorySystem.dir
   OBJECT_FILE_DIR = CMakeFiles\TrajectorySystem.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TrajectorySystem.dir\
@@ -128,7 +128,7 @@ build TrajectorySystem.exe: CXX_EXECUTABLE_LINKER__TrajectorySystem_ CMakeFiles/
 # Utility command for test
 
 build CMakeFiles/test.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\临时储存区\51-MCU-Machine-Operation-Simulation\build && H:\MSYS2\mingw64\bin\ctest.exe "
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build && H:\MSYS2\mingw64\bin\ctest.exe "
   DESC = Running tests...
   pool = console
   restat = 1
@@ -140,7 +140,7 @@ build test: phony CMakeFiles/test.util
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\临时储存区\51-MCU-Machine-Operation-Simulation\build && H:\MSYS2\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available.""
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build && H:\MSYS2\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -151,7 +151,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\临时储存区\51-MCU-Machine-Operation-Simulation\build && H:\MSYS2\mingw64\bin\cmake.exe --regenerate-during-build -SG:\临时储存区\51-MCU-Machine-Operation-Simulation -BG:\临时储存区\51-MCU-Machine-Operation-Simulation\build"
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build && H:\MSYS2\mingw64\bin\cmake.exe --regenerate-during-build -SG:\linshicunchuqu\51-MCU-Machine-Operation-Simulation -BG:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -160,7 +160,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
-# G:/临时储存区/51-MCU-Machine-Operation-Simulation/CMakeLists.txt
+# G:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/CMakeLists.txt
 # =============================================================================
 
 # =============================================================================
@@ -172,20 +172,20 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 build cmake_object_order_depends_target_test_motion: phony || .
 
-build tests/CMakeFiles/test_motion.dir/test_motion.cpp.obj: CXX_COMPILER__test_motion_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/test_motion.cpp || cmake_object_order_depends_target_test_motion
+build tests/CMakeFiles/test_motion.dir/test_motion.cpp.obj: CXX_COMPILER__test_motion_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/test_motion.cpp || cmake_object_order_depends_target_test_motion
   DEP_FILE = tests\CMakeFiles\test_motion.dir\test_motion.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/../src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/../src
   OBJECT_DIR = tests\CMakeFiles\test_motion.dir
   OBJECT_FILE_DIR = tests\CMakeFiles\test_motion.dir
   TARGET_COMPILE_PDB = tests\CMakeFiles\test_motion.dir\
   TARGET_PDB = tests\test_motion.pdb
   TARGET_SUPPORT_DIR = tests\CMakeFiles\test_motion.dir
 
-build tests/CMakeFiles/test_motion.dir/__/src/motion.cpp.obj: CXX_COMPILER__test_motion_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/motion.cpp || cmake_object_order_depends_target_test_motion
+build tests/CMakeFiles/test_motion.dir/__/src/motion.cpp.obj: CXX_COMPILER__test_motion_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/motion.cpp || cmake_object_order_depends_target_test_motion
   DEP_FILE = tests\CMakeFiles\test_motion.dir\__\src\motion.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/../src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/../src
   OBJECT_DIR = tests\CMakeFiles\test_motion.dir
   OBJECT_FILE_DIR = tests\CMakeFiles\test_motion.dir\__\src
   TARGET_COMPILE_PDB = tests\CMakeFiles\test_motion.dir\
@@ -220,20 +220,20 @@ build tests/test_motion.exe: CXX_EXECUTABLE_LINKER__test_motion_ tests/CMakeFile
 
 build cmake_object_order_depends_target_test_protocol: phony || .
 
-build tests/CMakeFiles/test_protocol.dir/test_protocol.cpp.obj: CXX_COMPILER__test_protocol_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/test_protocol.cpp || cmake_object_order_depends_target_test_protocol
+build tests/CMakeFiles/test_protocol.dir/test_protocol.cpp.obj: CXX_COMPILER__test_protocol_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/test_protocol.cpp || cmake_object_order_depends_target_test_protocol
   DEP_FILE = tests\CMakeFiles\test_protocol.dir\test_protocol.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/../src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/../src
   OBJECT_DIR = tests\CMakeFiles\test_protocol.dir
   OBJECT_FILE_DIR = tests\CMakeFiles\test_protocol.dir
   TARGET_COMPILE_PDB = tests\CMakeFiles\test_protocol.dir\
   TARGET_PDB = tests\test_protocol.pdb
   TARGET_SUPPORT_DIR = tests\CMakeFiles\test_protocol.dir
 
-build tests/CMakeFiles/test_protocol.dir/__/src/protocol.cpp.obj: CXX_COMPILER__test_protocol_unscanned_ G$:/临时储存区/51-MCU-Machine-Operation-Simulation/src/protocol.cpp || cmake_object_order_depends_target_test_protocol
+build tests/CMakeFiles/test_protocol.dir/__/src/protocol.cpp.obj: CXX_COMPILER__test_protocol_unscanned_ G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/src/protocol.cpp || cmake_object_order_depends_target_test_protocol
   DEP_FILE = tests\CMakeFiles\test_protocol.dir\__\src\protocol.cpp.obj.d
   FLAGS = -std=gnu++20
-  INCLUDES = -IG:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/../src
+  INCLUDES = -IG:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/../src
   OBJECT_DIR = tests\CMakeFiles\test_protocol.dir
   OBJECT_FILE_DIR = tests\CMakeFiles\test_protocol.dir\__\src
   TARGET_COMPILE_PDB = tests\CMakeFiles\test_protocol.dir\
@@ -264,7 +264,7 @@ build tests/test_protocol.exe: CXX_EXECUTABLE_LINKER__test_protocol_ tests/CMake
 # Utility command for test
 
 build tests/CMakeFiles/test.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\临时储存区\51-MCU-Machine-Operation-Simulation\build\tests && H:\MSYS2\mingw64\bin\ctest.exe "
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build\tests && H:\MSYS2\mingw64\bin\ctest.exe "
   DESC = Running tests...
   pool = console
   restat = 1
@@ -276,7 +276,7 @@ build tests/test: phony tests/CMakeFiles/test.util
 # Utility command for edit_cache
 
 build tests/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\临时储存区\51-MCU-Machine-Operation-Simulation\build\tests && H:\MSYS2\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available.""
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build\tests && H:\MSYS2\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -287,7 +287,7 @@ build tests/edit_cache: phony tests/CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build tests/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\临时储存区\51-MCU-Machine-Operation-Simulation\build\tests && H:\MSYS2\mingw64\bin\cmake.exe --regenerate-during-build -SG:\临时储存区\51-MCU-Machine-Operation-Simulation -BG:\临时储存区\51-MCU-Machine-Operation-Simulation\build"
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D G:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build\tests && H:\MSYS2\mingw64\bin\cmake.exe --regenerate-during-build -SG:\linshicunchuqu\51-MCU-Machine-Operation-Simulation -BG:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -313,14 +313,14 @@ build test_protocol.exe: phony tests/test_protocol.exe
 # =============================================================================
 
 #############################################
-# Folder: G:/临时储存区/51-MCU-Machine-Operation-Simulation/build
+# Folder: G:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build
 
 build all: phony TrajectorySystem.exe tests/all
 
 # =============================================================================
 
 #############################################
-# Folder: G:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests
+# Folder: G:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/tests
 
 build tests/all: phony tests/test_motion.exe tests/test_protocol.exe
 
@@ -331,14 +331,14 @@ build tests/all: phony tests/test_motion.exe tests/test_protocol.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja G$:/临时储存区/51-MCU-Machine-Operation-Simulation/build/cmake_install.cmake G$:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests/cmake_install.cmake G$:/临时储存区/51-MCU-Machine-Operation-Simulation/build/CTestTestfile.cmake G$:/临时储存区/51-MCU-Machine-Operation-Simulation/build/tests/CTestTestfile.cmake: RERUN_CMAKE | CMakeCache.txt CMakeFiles/4.2.3/CMakeCXXCompiler.cmake CMakeFiles/4.2.3/CMakeRCCompiler.cmake CMakeFiles/4.2.3/CMakeSystem.cmake G$:/临时储存区/51-MCU-Machine-Operation-Simulation/CMakeLists.txt G$:/临时储存区/51-MCU-Machine-Operation-Simulation/matlab/trajectory.txt G$:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/CMakeLists.txt H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompilerABI.cpp H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCompilerIdDetection.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeFindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeGenericSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeInitializeConfigs.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeLanguageInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeNinjaFindMake.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystem.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCompilerCommon.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Diab-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Renesas-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/FeatureTesting.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Determine-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Initialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-windres.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/WindowsPaths.cmake
+build build.ninja G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/cmake_install.cmake G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/tests/cmake_install.cmake G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/CTestTestfile.cmake G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/tests/CTestTestfile.cmake: RERUN_CMAKE | CMakeCache.txt CMakeFiles/4.2.3/CMakeCXXCompiler.cmake CMakeFiles/4.2.3/CMakeRCCompiler.cmake CMakeFiles/4.2.3/CMakeSystem.cmake G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/CMakeLists.txt G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/matlab/trajectory.txt G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/CMakeLists.txt H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompilerABI.cpp H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCompilerIdDetection.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeFindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeGenericSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeInitializeConfigs.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeLanguageInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeNinjaFindMake.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystem.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCompilerCommon.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Diab-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Renesas-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/FeatureTesting.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Determine-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Initialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-windres.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/WindowsPaths.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build CMakeCache.txt CMakeFiles/4.2.3/CMakeCXXCompiler.cmake CMakeFiles/4.2.3/CMakeRCCompiler.cmake CMakeFiles/4.2.3/CMakeSystem.cmake G$:/临时储存区/51-MCU-Machine-Operation-Simulation/CMakeLists.txt G$:/临时储存区/51-MCU-Machine-Operation-Simulation/matlab/trajectory.txt G$:/临时储存区/51-MCU-Machine-Operation-Simulation/tests/CMakeLists.txt H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompilerABI.cpp H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCompilerIdDetection.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeFindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeGenericSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeInitializeConfigs.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeLanguageInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeNinjaFindMake.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystem.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCompilerCommon.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Diab-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Renesas-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/FeatureTesting.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Determine-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Initialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-windres.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/WindowsPaths.cmake: phony
+build CMakeCache.txt CMakeFiles/4.2.3/CMakeCXXCompiler.cmake CMakeFiles/4.2.3/CMakeRCCompiler.cmake CMakeFiles/4.2.3/CMakeSystem.cmake G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/CMakeLists.txt G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/matlab/trajectory.txt G$:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/tests/CMakeLists.txt H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXCompilerABI.cpp H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCXXInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeCompilerIdDetection.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeDetermineSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeFindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeGenericSystem.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeInitializeConfigs.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeLanguageInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeNinjaFindMake.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCCompiler.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeRCInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystem.cmake.in H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCXXCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestCompilerCommon.cmake H$:/MSYS2/mingw64/share/cmake/Modules/CMakeTestRCCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Diab-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Renesas-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Internal/FeatureTesting.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Determine-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-GNU.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-Initialize.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows-windres.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/Windows.cmake H$:/MSYS2/mingw64/share/cmake/Modules/Platform/WindowsPaths.cmake: phony
 
 
 #############################################

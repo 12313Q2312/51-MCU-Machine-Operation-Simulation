@@ -19,11 +19,18 @@
 #include "AI.h"
 #include "DSAI.h"
 #include "protocol.h"
+#include <windows.h>
 #include "serial.h"
+#include <stdlib.h>
 
 using namespace std;
 
 int main() {
+    // ???????? UTF-8??? Windows ?????
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+    SetConsoleCP(65001);
+#endif
     // ===== 1. 读取 MATLAB 状态向量 =====
     // 优先当前目录, 其次 matlab/ (CMake 未复制时)
     ifstream fin("trajectory.txt");
@@ -120,5 +127,7 @@ int main() {
 
     cout << endl << "Done. Press Enter to exit..." << endl;
     cin.get();
+    system("pause");
+    
     return 0;
 }

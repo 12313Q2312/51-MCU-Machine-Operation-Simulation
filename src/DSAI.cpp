@@ -366,13 +366,16 @@ static MotionType chooseMotionType(double dist) {
 #pragma comment(lib, "winhttp.lib")
 
 static std::optional<std::string> queryDeepSeek(const PathRequest& req) {
+    /* ---- 1. ?? API Key (???? DEEPSEEK_API_KEY) ---- */
     const char* apiKey = std::getenv("DEEPSEEK_API_KEY");
     if (!apiKey || std::strlen(apiKey) == 0) {
         std::cerr << "[INFO] DEEPSEEK_API_KEY not set, skipping API call" << std::endl;
+        std::cerr << "[INFO] ????: set DEEPSEEK_API_KEY=sk-xxxx   (CMD)" << std::endl;
+        std::cerr << "[INFO] ????: ='sk-xxxx' (PowerShell)" << std::endl;
         return std::nullopt;
     }
 
-    /* 构造 JSON 请求体 */
+    /* ---- 2. ?? JSON ??? (???? stream:false) ---- */
     std::ostringstream body;
     body << "{"
          << "\"model\":\"deepseek-chat\","
@@ -385,24 +388,36 @@ static std::optional<std::string> queryDeepSeek(const PathRequest& req) {
          << "\"role\":\"user\","
          << "\"content\":\"Plan from (" << req.start.x << "," << req.start.y
          << ") to (" << req.end.x << "," << req.end.y << ").\""
-         << "}]}";
+         << "}],"
+         << "\"stream\":false"
+         << "}";
 
     std::string bodyStr = body.str();
-    std::cout << "[DEBUG DSAI] Sending DeepSeek request..." << std::endl;
+    std::cout << "[DEBUG DSAI] Sending DeepSeek request (body="
+              << bodyStr.size() << " bytes)..." << std::endl;
 
-    /* WinHTTP 会话 */
+    /* ---- 3. ??? WinHTTP ?? ---- */
     HINTERNET hSession = WinHttpOpen(
         L"TrajectorySystem/1.0",
         WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
         WINHTTP_NO_PROXY_NAME,
         WINHTTP_NO_PROXY_BYPASS, 0);
 
-    if (!hSession) return std::nullopt;
+    if (!hSession) {
+        std::cerr << "[ERROR] WinHttpOpen failed: " << GetLastError() << std::endl;
+        return std::nullopt;
+    }
 
+    /* ---- 4. ??? api.deepseek.com:443 ---- */
     HINTERNET hConnect = WinHttpConnect(hSession,
         L"api.deepseek.com", 443, 0);
-    if (!hConnect) { WinHttpCloseHandle(hSession); return std::nullopt; }
+    if (!hConnect) {
+        std::cerr << "[ERROR] WinHttpConnect failed: " << GetLastError() << std::endl;
+        WinHttpCloseHandle(hSession);
+        return std::nullopt;
+    }
 
+    /* ---- 5. ?? HTTPS POST ?? ---- */
     HINTERNET hRequest = WinHttpOpenRequest(hConnect,
         L"POST", L"/chat/completions",
         NULL, WINHTTP_NO_REFERER,
@@ -410,55 +425,109 @@ static std::optional<std::string> queryDeepSeek(const PathRequest& req) {
         WINHTTP_FLAG_SECURE);
 
     if (!hRequest) {
+        std::cerr << "[ERROR] WinHttpOpenRequest failed: " << GetLastError() << std::endl;
         WinHttpCloseHandle(hConnect);
         WinHttpCloseHandle(hSession);
         return std::nullopt;
     }
 
-    /* 请求头 */
+    /* ---- 6. SSL ????? (?????/????, ???? Win ?? TLS ??) ---- */
+    DWORD securityFlags = 0;
+    DWORD dwSize = sizeof(securityFlags);
+    WinHttpQueryOption(hRequest, WINHTTP_OPTION_SECURITY_FLAGS,
+                       &securityFlags, &dwSize);
+    securityFlags |= SECURITY_FLAG_IGNORE_UNKNOWN_CA
+                   | SECURITY_FLAG_IGNORE_CERT_DATE_INVALID
+                   | SECURITY_FLAG_IGNORE_CERT_CN_INVALID;
+    WinHttpSetOption(hRequest, WINHTTP_OPTION_SECURITY_FLAGS,
+                     &securityFlags, sizeof(securityFlags));
+
+    /* ---- 7. ????? (Content-Type + Authorization) ---- */
     std::wstring authHeader = L"Authorization: Bearer ";
     size_t keyLen = std::strlen(apiKey);
     for (size_t i = 0; i < keyLen; i++) {
         authHeader += (wchar_t)(unsigned char)apiKey[i];
     }
-    LPCWSTR headers = L"Content-Type: application/json\r\n";
 
-    std::wstring allHeaders = headers;
+    /* WinHTTP ? header ? CRLF ?? */
+    std::wstring allHeaders = L"Content-Type: application/json\r\n";
     allHeaders += authHeader + L"\r\n";
 
-    WinHttpAddRequestHeaders(hRequest, allHeaders.c_str(),
-        (DWORD)-1, WINHTTP_ADDREQ_FLAG_ADD);
+    if (!WinHttpAddRequestHeaders(hRequest, allHeaders.c_str(),
+            (DWORD)-1, WINHTTP_ADDREQ_FLAG_ADD)) {
+        std::cerr << "[ERROR] WinHttpAddRequestHeaders failed: "
+                  << GetLastError() << std::endl;
+        WinHttpCloseHandle(hRequest);
+        WinHttpCloseHandle(hConnect);
+        WinHttpCloseHandle(hSession);
+        return std::nullopt;
+    }
 
-    /* 发送请求 */
+    /* ---- 8. ???? ---- */
     BOOL ok = WinHttpSendRequest(hRequest,
         WINHTTP_NO_ADDITIONAL_HEADERS, 0,
         (LPVOID)bodyStr.c_str(), (DWORD)bodyStr.size(),
         (DWORD)bodyStr.size(), 0);
 
     if (!ok) {
+        std::cerr << "[ERROR] WinHttpSendRequest failed: "
+                  << GetLastError() << std::endl;
         WinHttpCloseHandle(hRequest);
         WinHttpCloseHandle(hConnect);
         WinHttpCloseHandle(hSession);
         return std::nullopt;
     }
 
-    /* 接收响应 */
+    /* ---- 9. ???? ---- */
     ok = WinHttpReceiveResponse(hRequest, NULL);
     if (!ok) {
+        std::cerr << "[ERROR] WinHttpReceiveResponse failed: "
+                  << GetLastError() << std::endl;
         WinHttpCloseHandle(hRequest);
         WinHttpCloseHandle(hConnect);
         WinHttpCloseHandle(hSession);
         return std::nullopt;
     }
 
-    /* 读取响应体 */
+    /* ---- 10. ?? HTTP ??? (??!) ---- */
+    DWORD statusCode = 0;
+    dwSize = sizeof(statusCode);
+    WinHttpQueryHeaders(hRequest,
+        WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER,
+        WINHTTP_HEADER_NAME_BY_INDEX, &statusCode, &dwSize,
+        WINHTTP_NO_HEADER_INDEX);
+
+    std::cout << "[DEBUG DSAI] HTTP status: " << statusCode << std::endl;
+
+    /* ????? */
     std::string response;
     DWORD bytesRead = 0;
     char buffer[4096];
-    while (WinHttpReadData(hRequest, buffer, sizeof(buffer), &bytesRead) && bytesRead > 0) {
+    while (WinHttpReadData(hRequest, buffer, sizeof(buffer), &bytesRead)
+           && bytesRead > 0) {
         response.append(buffer, bytesRead);
     }
 
+    /* ? 200 ???: ??????????? */
+    if (statusCode != 200) {
+        std::cerr << "[ERROR] DeepSeek API returned HTTP " << statusCode << std::endl;
+        if (!response.empty()) {
+            std::cerr << "[ERROR] Response: " << response << std::endl;
+        }
+        if (statusCode == 401) {
+            std::cerr << "[HINT]  API Key ??, ??? DEEPSEEK_API_KEY ????" << std::endl;
+        } else if (statusCode == 429) {
+            std::cerr << "[HINT]  ??????, ?????" << std::endl;
+        } else if (statusCode == 402) {
+            std::cerr << "[HINT]  ??????, ???" << std::endl;
+        }
+        WinHttpCloseHandle(hRequest);
+        WinHttpCloseHandle(hConnect);
+        WinHttpCloseHandle(hSession);
+        return std::nullopt;
+    }
+
+    /* ---- 11. ?? WinHTTP ?? ---- */
     WinHttpCloseHandle(hRequest);
     WinHttpCloseHandle(hConnect);
     WinHttpCloseHandle(hSession);
@@ -468,6 +537,7 @@ static std::optional<std::string> queryDeepSeek(const PathRequest& req) {
 
     return response;
 }
+
 
 #else
 /* Linux fallback: 返回 nullopt, 由 A* 接管 */

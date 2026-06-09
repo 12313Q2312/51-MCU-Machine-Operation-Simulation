@@ -170,7 +170,7 @@ rule CXX_EXECUTABLE_LINKER__test_protocol_
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = H:\MSYS2\mingw64\bin\cmake.exe --regenerate-during-build -SG:\临时储存区\51-MCU-Machine-Operation-Simulation -BG:\临时储存区\51-MCU-Machine-Operation-Simulation\build
+  command = H:\MSYS2\mingw64\bin\cmake.exe --regenerate-during-build -SG:\linshicunchuqu\51-MCU-Machine-Operation-Simulation -BG:\linshicunchuqu\51-MCU-Machine-Operation-Simulation\build
   description = Re-running CMake...
   generator = 1
 
