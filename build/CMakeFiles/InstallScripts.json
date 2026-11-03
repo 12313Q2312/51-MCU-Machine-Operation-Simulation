@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"G:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/cmake_install.cmake",
-		"G:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build/tests/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

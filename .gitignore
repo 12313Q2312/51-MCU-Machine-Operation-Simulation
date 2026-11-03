@@ -1,0 +1,31 @@
+# Visual Studio local state and generated build output.
+.vs/
+x64/
+Debug/
+Release/
+*.vcxproj.user
+*.suo
+
+# CMake out-of-source builds and in-source generated state.
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+
+# Compiled objects, executables, and debug databases.
+*.obj
+*.o
+*.exe
+*.pdb
+*.idb
+*.ilk
+*.tlog/
+
+# Python and operating-system caches.
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
