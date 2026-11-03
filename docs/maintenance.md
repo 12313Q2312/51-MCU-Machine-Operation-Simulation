@@ -28,7 +28,7 @@
 
 | 问题 | 下一项证据 |
 |---|---|
-| MATLAB 输入与 AI waypoints 尚未接通执行链路 | 先确认输入职责，再建立路径到编码输出的验收样例 |
+| 下一阶段转向中文指令控制 MCU；现有 AI waypoints 尚未接通执行链路 | 评审 natural-language-control-v0.1.md 的计划契约和依赖，再分阶段实施 |
 | CI 当前只匹配以 main 为目标的 PR | 审核依赖 PR 时检查具体 head SHA，不能把未触发当作通过 |
 | 习题系统 main/master 内容不同 | 分别维护，未获批准前不合并或更改默认分支 |
 | 习题系统 master 的 HTML 调用 confirmLogin，但现有加载脚本中未找到定义 | 在浏览器复现入口行为，再提出最小修复；语法检查和 HTTP 200 不能替代交互验证 |
