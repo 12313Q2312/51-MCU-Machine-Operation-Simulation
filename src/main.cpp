@@ -19,7 +19,9 @@
 #include "AI.h"
 #include "DSAI.h"
 #include "protocol.h"
+#ifdef _WIN32
 #include <windows.h>
+#endif
 #include "serial.h"
 #include <stdlib.h>
 
@@ -127,7 +129,9 @@ int main() {
 
     cout << endl << "Done. Press Enter to exit..." << endl;
     cin.get();
+#ifdef _WIN32
     system("pause");
+#endif
     
     return 0;
 }
