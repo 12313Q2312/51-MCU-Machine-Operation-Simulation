@@ -1,12 +1,14 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
 name: CMake on multiple platforms
+permissions:
+  contents: read
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -72,4 +74,27 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest --build-config ${{ matrix.build_type }}
+      run: ctest --build-config ${{ matrix.build_type }} --output-on-failure
+
+    - name: Generate offline demonstration
+      shell: bash
+      run: |
+        if [ -f build/Release/MotionControl.exe ]; then
+          program=build/Release/MotionControl.exe
+        else
+          program=build/MotionControl
+        fi
+        "$program" --demo --simulate --output build/motion-demo
+
+    - name: Upload executable and demonstration
+      uses: actions/upload-artifact@v4
+      with:
+        name: MotionControl-${{ matrix.os }}-${{ matrix.c_compiler }}
+        path: |
+          build/Release/MotionControl.exe
+          build/MotionControl
+          build/motion-demo/
+          docs/user-guide.md
+          docs/natural-language-plan.example.json
+          third_party/nlohmann/LICENSE.MIT
+          third_party/nlohmann/manifest.json

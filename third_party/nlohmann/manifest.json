@@ -1,0 +1,18 @@
+{
+  "name": "nlohmann/json",
+  "version": "3.12.0",
+  "upstreamCommit": "55f93686c01528224f448c19128836e7df245f72",
+  "license": "MIT",
+  "files": {
+    "json.hpp": {
+      "sha256": "aaf127c04cb31c406e5b04a63f1ae89369fccde6d8fa7cdda1ed4f32dfc5de63",
+      "gitBlob": "82d69f7c5d044c9887c96b90c97f5639083ecd14",
+      "source": "https://github.com/nlohmann/json/blob/55f93686c01528224f448c19128836e7df245f72/single_include/nlohmann/json.hpp"
+    },
+    "LICENSE.MIT": {
+      "sha256": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603",
+      "gitBlob": "a1dacc8dbbd907c4b622ff1f08e279c27465dcbc",
+      "source": "https://github.com/nlohmann/json/blob/55f93686c01528224f448c19128836e7df245f72/LICENSE.MIT"
+    }
+  }
+}

@@ -29,3 +29,10 @@ __pycache__/
 *.py[cod]
 .DS_Store
 Thumbs.db
+
+# MotionControl output and optional local secrets.
+motion-preview/
+artifacts/
+.env
+.env.*
+!.env.example
