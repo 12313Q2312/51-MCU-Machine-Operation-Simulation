@@ -1,0 +1,4 @@
+#pragma once
+namespace control {
+inline constexpr const char* demoJson = R"DEMO(@MOTION_DEMO_JSON@)DEMO";
+}

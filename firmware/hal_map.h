@@ -18,7 +18,13 @@
 /* ================================================================
  * 平台选择 (二选一)
  * ================================================================ */
-#if defined(MCU_STM32)
+#if defined(MCU_HOST_TEST)
+  /* Host-only adapter for tests of the real LED driver. Never use on a board. */
+  void hal_host_write_row(uint8_t value);
+  void hal_host_write_col(uint8_t value);
+  #define HAL_WRITE_ROW(value) hal_host_write_row(value)
+  #define HAL_WRITE_COL(value) hal_host_write_col(value)
+#elif defined(MCU_STM32)
   /* ---- STM32 (HAL 库) ---- */
   #include "stm32f1xx_hal.h"
 
@@ -71,9 +77,10 @@
    *   SMOD=0 → TH1 = 256 - 11059200/(384*9600) = 0xFD
    */
   #define HAL_UART_RX_AVAIL()  (RI)
-  #define HAL_UART_READ()      ({ RI = 0; SBUF; })
+  static uint8_t hal_uart_read(void) { uint8_t byte = SBUF; RI = 0; return byte; }
+  #define HAL_UART_READ()      hal_uart_read()
   #define HAL_UART_WRITE(b)    do { while(!TI); TI = 0; SBUF = (b); } while(0)
-  #define HAL_UART_INIT()      do { SCON = 0x50; TMOD |= 0x20; TH1 = 0xFD; TR1 = 1; } while(0)
+  #define HAL_UART_INIT()      do { SCON = 0x50; TMOD |= 0x20; TH1 = 0xFD; TI = 1; TR1 = 1; } while(0)
 
   /* 定时器 T0: 模式 1, 16 位, 每 2ms 中断一次
    *   12T 模式 @ 11.0592MHz: 2ms 需要 1843 个机器周期

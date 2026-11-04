@@ -26,11 +26,11 @@ void led_plot_point(uint16_t qx, uint16_t qy,
     uint8_t col, row;
 
     range = (x_max > x_min) ? (x_max - x_min) : 1;
-    col = (uint8_t)(((uint32_t)(qx - x_min) * (MATRIX_COLS - 1)) / range);
+    col = (uint8_t)(((uint32_t)(qx - x_min) * (MATRIX_COLS - 1) + range / 2) / range);
     if (col >= MATRIX_COLS) col = MATRIX_COLS - 1;
 
     range = (y_max > y_min) ? (y_max - y_min) : 1;
-    row = (uint8_t)(((uint32_t)(qy - y_min) * (MATRIX_ROWS - 1)) / range);
+    row = (uint8_t)(((uint32_t)(qy - y_min) * (MATRIX_ROWS - 1) + range / 2) / range);
     if (row >= MATRIX_ROWS) row = MATRIX_ROWS - 1;
 
     /* 注意: 屏幕坐标系 Y 轴向下, 执行层翻转 */
