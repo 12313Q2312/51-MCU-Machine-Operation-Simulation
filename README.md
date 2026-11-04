@@ -6,7 +6,7 @@
 
 项目把文字理解、结构化动作、轨迹数学、协议编码和嵌入式执行连成一个可检查的过程。用户先看到动作列表和动画预览，再选择连接单片机执行。第一版执行对象是 **8×8 LED 点阵上的光点**，支持直线、整圆、等待和有限次数的重复。
 
-这是独立的工程项目成果。科研实验、论文复现与算法研究放到各自仓库；本仓库专注自然语言运动控制及其验证。机器人扩展留待后续，本版没有电机控制、传感器反馈或避障能力。
+当前交付为 v0.1 软件原型。离线演示可直接运行，在线 AI 和开发板联调待验收。代码、测试和操作说明集中在[草稿 PR #5](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/pull/5)。
 
 ![固定计划的 LED 运动预览](docs/demo-preview.svg)
 
@@ -87,7 +87,13 @@ ctest --test-dir build --output-on-failure
 | 在线 AI | Windows 适配器已实现；本轮未调用真实 API，离线样例不证明在线理解准确率 |
 | 开发板 | 串口执行接口已实现；目标固件编译、烧录、真实串口及 LED 演示待联调 |
 
-具体结果见[实现验证记录](docs/control-verification-20261103.md)。远程状态以 [Actions](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions) 的具体提交为准；通过检查的 CI 会附带可执行程序与离线演示产物。
+v0.1 的远程验收中，Windows/MSVC、Linux/GCC 和 Linux/Clang 均通过构建和测试。测试页面底部的 Artifacts 提供各平台可执行文件和离线演示。第一次体验可下载对应平台产物，打开其中的 preview.svg，或用下方命令重新生成。[三平台验收与下载](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/41756211229)
+
+~~~powershell
+.\MotionControl.exe --demo --simulate --output demo-local
+~~~
+
+Windows 命令在可执行文件所在目录运行。Linux 使用 ./MotionControl，参数相同。详细测试覆盖见[实现验证记录](docs/control-verification-20261103.md)。
 
 ## 工程导航
 
