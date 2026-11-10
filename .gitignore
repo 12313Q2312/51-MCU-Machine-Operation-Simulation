@@ -23,6 +23,8 @@ Testing/
 *.idb
 *.ilk
 *.tlog/
+*.log
+*.recipe
 
 # Python and operating-system caches.
 __pycache__/
