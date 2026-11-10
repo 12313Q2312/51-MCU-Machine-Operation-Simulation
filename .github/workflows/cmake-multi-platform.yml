@@ -4,9 +4,11 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ "main" ]
+    # main, plus the open portable-build branch. That branch does not
+    # target main, so a pull_request filter alone never started this workflow.
+    branches: [ "main", "fix/portable-build-20261103" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "chore/repository-cleanup-20261103" ]
 
 jobs:
   build:
