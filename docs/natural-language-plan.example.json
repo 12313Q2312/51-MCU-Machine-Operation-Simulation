@@ -1,0 +1,26 @@
+{
+  "status": "ready",
+  "summary": "从 (0,0) 出发，用两秒到达 (2,4)，再用四秒绕 (4,4) 顺时针画半径两格的整圆。",
+  "defaults": [],
+  "plan": {
+    "version": 1,
+    "workspace": "led8x8",
+    "start": { "x": 0, "y": 0 },
+    "tickMs": 50,
+    "repeat": 1,
+    "actions": [
+      {
+        "type": "line",
+        "to": { "x": 2, "y": 4 },
+        "durationMs": 2000
+      },
+      {
+        "type": "circle",
+        "center": { "x": 4, "y": 4 },
+        "radius": 2,
+        "clockwise": true,
+        "durationMs": 4000
+      }
+    ]
+  }
+}
