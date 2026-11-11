@@ -48,3 +48,13 @@ MSVC 为多配置生成器，使用 `cmake --build build --config Release` 和 `
 - main 的 MATLAB 输入只打印；plan.waypoints 未传给后续轨迹生成。需要用户决定“执行 AI 路径”与“MATLAB 轨迹”的关系后另开任务。
 - 远程 GitHub App 建分支返回 403；此工作环境的 Git push 没有可用登录凭据。当前只有本地可审查提交，尚无远程分支或 Draft PR。GitHub main 未被修改。
 - 回滚时先逆序 `git revert <此修复提交 SHA>`，再按需要 revert 清理提交；通过独立分支/PR 审批，不重写历史。
+
+## 2026-11-10：让既有矩阵真正跑到这次修复
+
+2026-06-09 的运行 `27190156984` 原始日志已过期（API 410）。三个矩阵任务的步骤结论仍在：GCC、Clang、MSVC 都在 Configure CMake 失败，Build 和 Test 被跳过。用当时仍被追踪的 `build/CMakeCache.txt` 复现，CMake 直接拒绝配置：缓存创建目录是 `g:/linshicunchuqu/51-MCU-Machine-Operation-Simulation/build`，源目录是 `G:/linshicunchuqu/51-MCU-Machine-Operation-Simulation`，编译器是 `H:/MSYS2/mingw64/bin/c++.exe`。这与“配置步骤在一秒内失败、三个平台一起失败”一致。
+
+清理分支去掉这份缓存之后，PR #1 的运行 `41648971466` 可以完成配置。Linux GCC 与 Clang 的构建日志仍在，失败点是 `src/main.cpp:22` 无条件 `#include <windows.h>`。同一次运行的 Windows MSVC 配置、构建和测试已经通过。本分支原有的 `_WIN32` 保护和测试目标 `-UNDEBUG` / `/UNDEBUG` 就是这条 Linux 编译失败的修复，编译器矩阵没有删减。
+
+本 PR 的基线是 `chore/repository-cleanup-20261103`，不是 `main`。原来的工作流只在指向 `main` 的 `pull_request` 上运行，所以这份修复从未进入 Actions。工作流现在额外接受：`push` 到 `fix/portable-build-20261103`，以及 `pull_request` 指向 `chore/repository-cleanup-20261103`。
+
+本地按工作流命令复现（GCC 13.3，CMake 3.28，Release）：配置、全量编译、`ctest --build-config Release` 为 2/2 通过。此云端镜像的 Clang 在链接编译器探测程序时找不到 `-lstdc++`，发生在编译本仓库之前。GitHub ubuntu-latest 的 Clang 任务在 2026-11-03 已经通过编译器探测，并编译到 `windows.h`，因此没有为这个镜像差异修改项目。上面这段不代表 GitHub Actions 已经通过；以本提交触发的 Checks 为准。

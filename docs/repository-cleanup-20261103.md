@@ -32,7 +32,7 @@
 - `firmware/`：8 个固件、HAL、队列和 LED/协议文件。
 - `matlab/`：2 个 MATLAB 脚本及 `trajectory.txt` 数据。
 - `tests/`：测试构建文件、运动/协议测试、MCU 模拟器，共 4 个。
-- `.github/workflows/cmake-multi-platform.yml`、根 `CMakeLists.txt`、VS solution/project/filter、原有 `TrajectorySystem.gitignore`、AGENTS/CLAUDE/README/使用说明全部原样保留。
+- `.github/workflows/cmake-multi-platform.yml`、根 `CMakeLists.txt`、VS solution/project/filter、AGENTS/CLAUDE/README/使用说明全部原样保留。`TrajectorySystem.gitignore` 曾随第一次清理保留，后续提交已把它的规则并入根 `.gitignore` 并删除该文件，见文末。
 
 ## 实际验证
 
@@ -153,3 +153,11 @@ cmake --build build
 - `build/trajectory.txt`
 - `x64/Debug/TrajectorySystem.exe`
 - `x64/Debug/TrajectorySystem.pdb`
+
+## 后续：合并误命名的忽略文件（2026-11-10）
+
+第一次清理已经删除空的 `1.gitignore`，并取消追踪 `.vs/`（17）、`build/`（33）、根 `x64/`（2）和 `TrajectorySystem/x64/`（19）。这些目录里没有需要保留的源码或实验数据：`DocumentLayout.json` 是 IDE 窗口布局；`CMakeCXXCompilerId.cpp` 是 CMake 探测代码；`build/trajectory.txt` 与 `matlab/trajectory.txt` 内容相同。
+
+`TrajectorySystem.gitignore` 不会被 Git 读取。其中的规则已并入根 `.gitignore`。`x64/` 已覆盖 `TrajectorySystem/x64/`；这次补上原先缺失的 `*.log` 与 `*.recipe`。该误命名文件从此提交删除。最终不再追踪任何名为 `*gitignore*` 且不是根 `.gitignore` 的文件。`.vs/`、`build/`、`x64/` 仍不在索引中。
+
+撤销这一后续提交时，在独立分支上 `git revert <本提交 SHA>`，不要改写历史。后面叠在本分支上的 PR 需要用 merge（不要 rebase）把本提交接进去，否则那些分支仍会保留 `TrajectorySystem.gitignore`。
