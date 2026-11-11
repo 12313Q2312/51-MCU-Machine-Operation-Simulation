@@ -1,8 +1,8 @@
-﻿/**
+/**
  * firmware/main.c — MCU 固件主程序
  *
  * 平台: 51 MCU (STC89C52, 11.0592MHz) / STM32F103 (通过 HAL 宏切换)
- * 编译器: SDCC (51) / arm-none-eabi-gcc (STM32)
+ * 编译器: SDCC (51) / Keil C51 / arm-none-eabi-gcc (STM32)
  *
  * 主循环:
  *   1. 从 UART 接收 PC 发来的帧数据
@@ -17,6 +17,16 @@
 #include "led_matrix.h"
 #include "queue.h"
 
+/* ---- 中断关键字适配 ---- */
+/* SDCC 用 __interrupt(N), Keil C51 用 interrupt N */
+#ifdef MCU_KEIL
+  #define ISR_INT0  interrupt 0
+  #define ISR_T0    interrupt 1
+#else
+  #define ISR_INT0  __interrupt(0)
+  #define ISR_T0    __interrupt(1)
+#endif
+
 /* ---- 全局状态 ---- */
 static FrameQueue frame_queue;
 static volatile uint8_t system_running = 1;  /* 急停标志 */
@@ -30,8 +40,8 @@ static void on_frame_received(const FrameData* data) {
 }
 
 /* ---- 急停中断 (51: INT0; STM32: EXTI) ---- */
-#ifdef MCU_8051
-void INT0_ISR(void) __interrupt(0) {
+#if defined(MCU_8051) || defined(MCU_KEIL)
+void INT0_ISR(void) ISR_INT0 {
     system_running = 0;
 }
 #elif defined(MCU_STM32)
@@ -44,7 +54,7 @@ void EXTI0_IRQHandler(void) {
 #endif
 
 /* ---- 定时器中断: 2ms 间隔, 刷新 LED 行扫描 ---- */
-#ifdef MCU_8051
+#if defined(MCU_8051) || defined(MCU_KEIL)
 /*
  * T0 中断, 模式 1 (16 位自动重载)
  *
@@ -53,7 +63,7 @@ void EXTI0_IRQHandler(void) {
  *   2ms = 2000us → 2000/1.085 ≈ 1843 个计数
  *   重载值 = 65536 - 1843 = 63693 = 0xF8CD
  */
-void T0_ISR(void) __interrupt(1) {
+void T0_ISR(void) ISR_T0 {
     TH0 = 0xF8;
     TL0 = 0xCD;
     led_scan_row();
@@ -88,7 +98,7 @@ static void system_init(void) {
     led_clear();
     protocol_reset();
 
-#ifdef MCU_8051
+#if defined(MCU_8051) || defined(MCU_KEIL)
     HAL_UART_INIT();
 
     /* T0: 模式 1, 16 位定时器, 2ms 周期 */
@@ -108,8 +118,28 @@ static void system_init(void) {
 #endif
 }
 
+/* ---- 安全停机: 关闭定时器, 熄灭所有 LED ---- */
+static void emergency_stop(void) {
+#if defined(MCU_8051) || defined(MCU_KEIL)
+    TR0 = 0;  /* 停止 T0 定时器 — 防止 ISR 与主循环竞态 */
+    ET0 = 0;
+#elif defined(MCU_STM32)
+    SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
+#endif
+
+    led_clear();
+    HAL_WRITE_ROW(0x00);  /* 关闭所有行驱动 */
+    HAL_LED_RUN_OFF();
+    HAL_LED_ERR_ON();
+
+    /* 死循环: 不再扫描, 仅保持 LED 全灭状态 */
+    while (1) {
+        /* T0 已关闭, 空循环 */
+    }
+}
+
 /* ---- 主循环 ---- */
-#ifdef MCU_8051
+#if defined(MCU_8051) || defined(MCU_KEIL)
 void main(void) {
 #else
 int main(void) {
@@ -121,7 +151,7 @@ int main(void) {
 
     system_init();
 
-    /* 坐标范围: 与 PC 端 protocol.cpp 同步 */
+    /* 坐标范围: 与 PC 端 protocol.cpp 同步 (统一使用 0-65535) */
     const uint16_t x_min = 0, x_max = 65535;
     const uint16_t y_min = 0, y_max = 65535;
     uint32_t frame_seq = 0;
@@ -151,20 +181,11 @@ int main(void) {
         /* 3. 急停检测 */
         if (HAL_ESTOP_READ()) {
             system_running = 0;
-            HAL_LED_ERR_ON();
-            led_clear();
-            led_scan_row();
         }
     }
 
-    /* 停机: 全灭 */
-    HAL_LED_RUN_OFF();
-    HAL_LED_ERR_ON();
-    led_clear();
-
-    while (1) {
-        led_scan_row();
-    }
+    /* 停机: 安全关闭所有外设 */
+    emergency_stop();
 
 #ifdef MCU_STM32
     return 0;
