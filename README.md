@@ -1,12 +1,14 @@
 # Text-to-MCU Motion Control
 
+[![CMake 构建和测试](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/workflows/cmake-multi-platform.yml/badge.svg?branch=main)](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/workflows/cmake-multi-platform.yml)
+
 **用一句中文描述运动，让 AI 生成计划，在 51 单片机的 LED 点阵上演示。**
 
 例如：“从左下角走到 (2,4)，用两秒；再以 (4,4) 为圆心、半径两格，顺时针画一圈，用四秒。”
 
 项目把文字理解、结构化动作、轨迹数学、协议编码和嵌入式执行连成一个可检查的过程。用户先看到动作列表和动画预览，再选择连接单片机执行。第一版执行对象是 **8×8 LED 点阵上的光点**，支持直线、整圆、等待和有限次数的重复。
 
-当前交付为 v0.1 软件原型。离线演示可直接运行，在线 AI 和开发板联调待验收。源码、测试和演示均可在本仓库查看。
+当前版本支持离线生成轨迹和模拟设备应答。没有开发板时，可以先看下方示例，再选择网页模拟器或 C++ 离线演示。真实 AI 调用和开发板联调待验收。
 
 **快速体验。** 下载 [网页模拟器](web-sim/index.html) 后用浏览器打开，可观察 8×8 点阵、10 字节帧和 ACK。网页模拟器使用内置样例。[旧版轨迹示例与调试指南](使用说明.md)
 
@@ -86,10 +88,10 @@ ctest --test-dir build --output-on-failure
 | 预览与 CLI | 固定样例、提供方响应样例、中文路径、输出文件及取消行为有集成测试 |
 | PC/固件协议互操作 | C++ 帧交给 firmware/protocol.c 解码，LED 驱动全部 64 个格点经主机测试 |
 | 执行异常 | 模拟设备覆盖节拍、ACK 回绕/超时/错序、部分写入、取消和异常后的停止 |
-| 在线 AI | Windows 适配器已实现；本轮未调用真实 API，离线样例不证明在线理解准确率 |
+| 在线 AI | Windows 适配器已实现，真实 API 与中文指令理解准确率待验收 |
 | 开发板 | 串口执行接口已实现；目标固件编译、烧录、真实串口及 LED 演示待联调 |
 
-v0.1 的远程验收中，Windows/MSVC、Linux/GCC 和 Linux/Clang 均通过构建和测试。测试页面底部的 Artifacts 提供各平台可执行文件和离线演示。第一次体验可下载对应平台产物，打开其中的 preview.svg，或用下方命令重新生成。[三平台验收与下载](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/41756211229)
+主线已通过 Windows/MSVC、Linux/GCC 和 Linux/Clang 的构建与测试。通过记录底部的 Artifacts 提供各平台程序和离线演示。也可用上方命令生成同类产物。[主线测试与演示下载](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43028625440)
 
 ~~~powershell
 .\MotionControl.exe --demo --simulate --output demo-local
