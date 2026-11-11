@@ -3,11 +3,12 @@
 > 详细项目文档见 PROJECT.md，开始任务前请先阅读。
 
 ## 项目概述
-下一阶段目标是“中文指令 → AI 结构化运动计划 → 本地校验与轨迹生成 → MCU LED 点阵执行”。实施提案见 docs/natural-language-control-v0.1.md，目前待评审，尚未实现；本次不扩展机器人。以下结构描述现有实现。
+当前目标是“中文指令 → AI 结构化运动计划 → 本地校验与轨迹生成 → MCU LED 点阵执行”。v0.1 方案已获负责人批准，见 docs/natural-language-control-v0.1.md。新入口为 src/control/main.cpp（MotionControl），状态见 README；真实 AI 与硬件待验收。本仓库不加入科研实验，本次不扩展机器人。以下结构属于保留的 TrajectorySystem 示例。
 
 本项目通过 MATLAB 仿真生成轨迹（直线/正弦/圆），将轨迹离散化为状态向量（位置 + 速度），再用 C++ 进行 AI 运动决策与轨迹处理，通过串口协议下发到 MCU（51/STM32）驱动 LED 点阵模拟机器运动。
 
 ## 技术栈
+- **新入口优先**：使用 CMake 构建 MotionControl；src/control 中的新模式默认预览，串口必须 --execute、--port 和确认输入。新增改动需运行 test_motion_control 与 test_control_cli；不要用原示例的 fakeAI、自动量化或环境变量发送路径替代新契约。
 - **PC 端**：C++20（MSVC / GCC / Clang），CMake 构建
 - **仿真层**：MATLAB (.m) — 轨迹可视化与状态向量生成
 - **AI 层**：DeepSeek API（WinHTTP）+ 本地 A* 降级
