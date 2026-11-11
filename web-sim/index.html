@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>51 MCU 模拟器</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+:root {
+  --bg-primary: #eef2f8;
+  --bg-secondary: #f5f7fb;
+  --bg-panel: rgba(255, 255, 255, 0.92);
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-active: rgba(0, 112, 243, 0.4);
+  --cyan: #0077cc;
+  --cyan-dim: rgba(0, 119, 204, 0.7);
+  --gold: #c8940e;
+  --gold-dim: rgba(200, 148, 14, 0.7);
+  --rose: #c92a5e;
+  --rose-dim: rgba(201, 42, 94, 0.7);
+  --green: #007744;
+  --green-dim: rgba(0, 119, 68, 0.7);
+  --violet: #6c3bcf;
+  --violet-dim: rgba(108, 59, 207, 0.7);
+  --text-primary: #1a1a2e;
+  --text-secondary: rgba(26, 26, 46, 0.72);
+  --text-dim: rgba(26, 26, 46, 0.48);
+  --text-code: #005a88;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.07);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: linear-gradient(135deg, #eef2f8 0%, #e4eaf5 50%, #f0eef8 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 16px;
+  overflow-x: hidden;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: ''; position: fixed; top: -30%; left: -10%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,119,204,0.04) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+  animation: orbFloat 20s ease-in-out infinite;
+}
+@keyframes orbFloat {
+  0%,100% { transform:translate(0,0) scale(1); }
+  33% { transform:translate(100px,80px) scale(1.1); }
+  66% { transform:translate(-50px,120px) scale(0.9); }
+}
+.orb-2 {
+  position: fixed; bottom: -20%; right: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(108,59,207,0.04) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+  animation: orbFloat2 25s ease-in-out infinite;
+}
+@keyframes orbFloat2 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  50% { transform:translate(-80px,-60px) scale(1.15); }
+}
+.header, .tabs, .panel { position: relative; z-index: 1; }
+
+/* ── Header ── */
+.header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 22px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.header h1 {
+  font-size: 20px; font-weight: 700;
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.5px;
+}
+.chip-badge {
+  font-size: 11px; font-weight: 500;
+  padding: 4px 12px; border-radius: 20px;
+  background: rgba(0,119,204,0.06);
+  color: var(--cyan-dim);
+  border: 1px solid rgba(0,119,204,0.15);
+  letter-spacing: 0.3px;
+}
+#powerBadge { transition: all 0.4s ease; }
+.header-actions { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.header-status { font-size: 11px; color: var(--text-dim); letter-spacing: 0.3px; }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 2px; margin-bottom: 0; padding-left: 8px; }
+.tab-btn {
+  position: relative; padding: 10px 22px;
+  background: transparent; border: none;
+  border-radius: 10px 10px 0 0;
+  color: var(--text-dim); cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  transition: all 0.3s ease; letter-spacing: 0.3px;
+}
+.tab-btn::before {
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  transition: all 0.3s ease; transform: translateX(-50%); border-radius: 1px;
+}
+.tab-btn:hover { color: var(--text-secondary); }
+.tab-btn.active {
+  color: var(--cyan);
+  background: var(--bg-panel);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.tab-btn.active::before { width: 60%; }
+
+/* ── Panels ── */
+.panel {
+  display: none;
+  background: var(--bg-panel);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0 14px 14px 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.4);
+  animation: panelIn 0.35s ease;
+}
+.panel.active { display: block; }
+@keyframes panelIn {
+  from { opacity:0; transform:translateY(8px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.section-title {
+  font-size: 12px; font-weight: 600; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 1.2px;
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* ── LED Matrix ── */
+.led-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px; padding: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.led-matrix {
+  display: inline-grid;
+  grid-template-columns: repeat(8, 38px);
+  gap: 5px; padding: 16px 20px;
+  background: radial-gradient(ellipse at center, #f4f7fc, #eaeef6);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 10px;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.03);
+}
+.led-cell {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: #d5dce8;
+  border: 1px solid rgba(0,0,0,0.07);
+  transition: all 0.12s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.08), inset 0 -1px 2px rgba(255,255,255,0.6);
+}
+.led-cell.on {
+  background: #ffcc00;
+  border-color: rgba(255,200,0,0.4);
+  box-shadow:
+    0 0 8px rgba(255,200,0,0.6),
+    0 0 20px rgba(255,180,0,0.3),
+    0 0 40px rgba(255,150,0,0.12),
+    inset 0 -1px 2px rgba(255,255,200,0.5);
+}
+.led-cell.on.red-led {
+  background: #e8355a;
+  border-color: rgba(232,53,90,0.3);
+  box-shadow: 0 0 8px rgba(232,53,90,0.5), 0 0 20px rgba(232,53,90,0.25), 0 0 40px rgba(200,0,50,0.1);
+}
+
+/* ── MCU ── */
+.mcu-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px; padding: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+.mcu-die {
+  background: linear-gradient(145deg, #f0f4fa, #e6eaf2);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 10px; padding: 14px;
+  position: relative; overflow: hidden;
+  box-shadow: inset 0 0 60px rgba(0,119,204,0.03), var(--shadow-sm);
+}
+.mcu-die::before {
+  content: ''; position: absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background: conic-gradient(from 0deg, transparent, rgba(0,119,204,0.03), transparent, rgba(108,59,207,0.03), transparent);
+  animation: chipRotate 12s linear infinite;
+  pointer-events: none;
+}
+@keyframes chipRotate {
+  from { transform:rotate(0deg); }
+  to { transform:rotate(360deg); }
+}
+.mcu-label {
+  text-align: center; font-size: 10px; font-weight: 600;
+  color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px;
+  margin-bottom: 10px; position: relative; z-index: 1;
+}
+.pin-grid {
+  display: grid; grid-template-columns: 34px 1fr 34px;
+  gap: 1px; font-size: 9px; position: relative; z-index: 1;
+}
+.mcu-body {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, #f4f8fe, #eaedf5);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 6px; padding: 14px 10px; min-height: 120px;
+  position: relative; overflow: hidden;
+}
+.mcu-body::after {
+  content: ''; position: absolute; top:0; left:0;
+  width:100%; height:100%;
+  background: linear-gradient(180deg, rgba(0,119,204,0.02), transparent 40%, transparent 60%, rgba(108,59,207,0.02));
+  pointer-events: none;
+}
+.chip-text { font-size: 13px; font-weight: 700; color: var(--text-primary); letter-spacing: 1.5px; }
+.chip-text .highlight {
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.chip-sub { font-size: 10px; color: var(--text-dim); margin-top: 4px; letter-spacing: 0.8px; }
+.chip-pins { display: flex; gap: 14px; margin-top: 10px; position: relative; z-index: 1; }
+.pin-item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.pin-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+}
+.pin-dot.active { border-color: transparent; }
+.pin-dot.active.green-dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.pin-dot.active.red-dot { background: var(--rose); box-shadow: 0 0 8px var(--rose); }
+.pin-dot.active.yellow-dot { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+.pin-dot.blue-dot { background: #2979ff; }
+.pin-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.3px; }
+.pin-num { font-size: 8px; color: rgba(0,0,0,0.2); }
+.pin-side { display: flex; flex-direction: column; justify-content: space-around; gap: 2px; }
+.pin-row { display: flex; align-items: center; gap: 3px; padding: 1px 2px; height: 17px; }
+.pin-row .num { color: rgba(0,0,0,0.2); min-width: 14px; text-align: right; font-size: 8px; }
+.pin-row .name { color: var(--text-dim); min-width: 22px; font-size: 9px; }
+
+/* ── Buttons ── */
+.ctrl-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn {
+  position: relative; padding: 8px 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.7);
+  color: var(--text-secondary); cursor: pointer;
+  font-family: inherit; font-size: 12px; font-weight: 500;
+  transition: all 0.2s ease; letter-spacing: 0.3px;
+  box-shadow: var(--shadow-sm);
+}
+.btn:hover {
+  border-color: rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.9);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-primary {
+  background: linear-gradient(135deg, rgba(0,119,204,0.08), rgba(0,100,180,0.04));
+  border-color: rgba(0,119,204,0.25);
+  color: var(--cyan);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, rgba(0,119,204,0.15), rgba(0,100,180,0.08));
+  border-color: rgba(0,119,204,0.35);
+  box-shadow: 0 4px 16px rgba(0,119,204,0.12);
+}
+.btn-success {
+  background: linear-gradient(135deg, rgba(0,119,68,0.08), rgba(0,100,55,0.04));
+  border-color: rgba(0,119,68,0.25);
+  color: var(--green);
+}
+.btn-success:hover {
+  background: linear-gradient(135deg, rgba(0,119,68,0.15), rgba(0,100,55,0.08));
+  border-color: rgba(0,119,68,0.35);
+  box-shadow: 0 4px 16px rgba(0,119,68,0.12);
+}
+.btn-danger {
+  background: linear-gradient(135deg, rgba(201,42,94,0.08), rgba(180,20,70,0.04));
+  border-color: rgba(201,42,94,0.25);
+  color: var(--rose);
+}
+.btn-danger:hover {
+  background: linear-gradient(135deg, rgba(201,42,94,0.15), rgba(180,20,70,0.08));
+  border-color: rgba(201,42,94,0.35);
+  box-shadow: 0 4px 16px rgba(201,42,94,0.12);
+}
+.btn-gold {
+  background: linear-gradient(135deg, rgba(200,148,14,0.08), rgba(170,120,10,0.04));
+  border-color: rgba(200,148,14,0.25);
+  color: var(--gold-dim);
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, rgba(200,148,14,0.15), rgba(170,120,10,0.08));
+  border-color: rgba(200,148,14,0.35);
+  box-shadow: 0 4px 16px rgba(200,148,14,0.12);
+}
+.btn-sm { padding: 5px 12px; font-size: 11px; border-radius: 6px; }
+
+/* ── Trajectory ── */
+.traj-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.traj-btn {
+  position: relative; padding: 12px 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--text-dim); cursor: pointer; text-align: center;
+  font-family: inherit; font-size: 12px; font-weight: 500;
+  transition: all 0.3s ease; letter-spacing: 0.5px;
+  box-shadow: var(--shadow-sm);
+}
+.traj-btn .traj-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+.traj-btn.active {
+  border-color: var(--cyan); color: var(--cyan);
+  background: rgba(0,119,204,0.06);
+  box-shadow: 0 0 16px rgba(0,119,204,0.08);
+}
+.traj-btn.active::after {
+  content: ''; position: absolute; bottom: 0; left: 20%;
+  width: 60%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  border-radius: 1px;
+}
+.traj-btn:hover:not(.active) {
+  border-color: rgba(0,0,0,0.15);
+  color: var(--text-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Console & Logs ── */
+.console, .flash-log {
+  background: #f8faff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 8px;
+  padding: 10px 14px;
+  height: 200px;
+  overflow-y: auto;
+  font-size: 11px;
+  line-height: 1.7;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+.console .time, .flash-log .time { color: rgba(0,0,0,0.2); }
+.console .info, .flash-log .info { color: var(--green-dim); }
+.console .warn, .flash-log .warn { color: var(--gold-dim); }
+.console .err, .flash-log .err { color: var(--rose-dim); }
+.console .data, .flash-log .data { color: var(--text-code); }
+.console::-webkit-scrollbar, .flash-log::-webkit-scrollbar, .mon-body::-webkit-scrollbar { width: 4px; }
+.console::-webkit-scrollbar-track, .flash-log::-webkit-scrollbar-track, .mon-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
+.console::-webkit-scrollbar-thumb, .flash-log::-webkit-scrollbar-thumb, .mon-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 2px; }
+
+/* ── Status Bar ── */
+.status-bar {
+  display: flex; gap: 18px; align-items: center;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  font-size: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+.status-item { display: flex; align-items: center; gap: 5px; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; transition: all 0.3s ease; }
+.status-dot.off { background: rgba(0,0,0,0.1); }
+.status-dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.status-dot.on.tx { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+.status-dot.on.rx { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.status-dot.err { background: var(--rose); box-shadow: 0 0 8px var(--rose); }
+.status-label { color: var(--text-dim); letter-spacing: 0.3px; }
+
+/* ── Statistics ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px; padding: 14px 12px; text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+.stat-card:hover {
+  border-color: rgba(0,119,204,0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.stat-card .val {
+  font-size: 26px; font-weight: 700;
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+.stat-card .lbl { font-size: 10px; color: var(--text-dim); margin-top: 4px; letter-spacing: 0.8px; }
+
+/* ── Flash ── */
+.flash-area { text-align: center; padding: 16px; }
+.progress-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px; padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.progress-bar {
+  width: 100%; height: 6px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 3px; overflow: hidden; margin: 14px 0;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--violet), var(--rose));
+  background-size: 200% 100%;
+  transition: width 0.4s ease; border-radius: 3px;
+  animation: progressShimmer 2s linear infinite;
+}
+@keyframes progressShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.progress-text { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+
+/* ── Serial Monitor ── */
+.mon-header {
+  display: grid; grid-template-columns: 80px 30px 1fr 1fr;
+  gap: 8px; padding: 8px 12px;
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--border-subtle);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  font-size: 10px; color: var(--text-dim); letter-spacing: 0.8px; font-weight: 600;
+}
+.mon-body {
+  background: #f8faff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0 0 8px 8px;
+  padding: 4px 0; height: 260px; overflow-y: auto;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+.hex-row {
+  display: grid; grid-template-columns: 80px 30px 1fr 1fr;
+  gap: 8px; padding: 3px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.02);
+  font-size: 11px; transition: background 0.2s;
+}
+.hex-row:hover { background: rgba(0,0,0,0.015); }
+.hex-row .ts { color: rgba(0,0,0,0.2); }
+.hex-row .dir-tx { color: var(--gold-dim); }
+.hex-row .dir-rx { color: var(--cyan-dim); }
+.hex-row .hex-data { color: var(--text-code); }
+.hex-row .hex-desc { color: var(--text-dim); font-size: 10px; }
+
+/* ── About ── */
+.about-container { max-width: 680px; margin: 0 auto; line-height: 1.9; }
+.about-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px; padding: 16px 20px; margin: 12px 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+.about-card h3 { color: var(--cyan); font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.about-card ul { list-style: none; padding: 0; }
+.about-card ul li { padding: 3px 0; color: var(--text-secondary); font-size: 13px; }
+.about-card ul li::before { content: '▸ '; color: var(--cyan-dim); }
+.flow-diagram {
+  background: #f8faff;
+  border: 1px solid rgba(0,119,204,0.08);
+  border-radius: 8px; padding: 14px 18px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 11px; line-height: 2;
+  color: var(--text-code);
+}
+.proto-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px; padding: 14px; font-size: 12px; line-height: 2;
+  box-shadow: var(--shadow-sm);
+}
+.proto-box .field { color: var(--cyan-dim); font-weight: 500; }
+.proto-box .desc { color: var(--text-dim); }
+.proto-box .label { color: var(--text-secondary); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── Selection dropdowns ── */
+select {
+  padding: 7px 10px; background: #f8faff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px; color: var(--text-primary);
+  font-family: 'Inter', sans-serif; font-size: 12px;
+  outline: none; cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+select:focus { border-color: var(--cyan); }
+.fw-info {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px; padding: 14px;
+  font-size: 11px; line-height: 2;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .traj-grid { grid-template-columns: repeat(2, 1fr); }
+  body { padding: 10px; }
+  .led-matrix { grid-template-columns: repeat(8, 28px); gap: 4px; padding: 12px 14px; }
+  .led-cell { width: 28px; height: 28px; }
+  .header h1 { font-size: 16px; }
+}
+@media (max-width: 500px) {
+  .led-matrix { grid-template-columns: repeat(8, 22px); gap: 3px; padding: 10px 8px; }
+  .led-cell { width: 22px; height: 22px; }
+  .header { flex-wrap: wrap; }
+  .header h1 { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="orb-2"></div>
+
+<!-- ── Header ── -->
+<div class="header">
+  <h1>⚡ MCU 模拟器</h1>
+  <span class="chip-badge">STC89C52 @ 11.0592MHz</span>
+  <span class="chip-badge" id="powerBadge" style="color:rgba(0,0,0,0.3);border-color:rgba(0,0,0,0.08)">◌ 未上电</span>
+  <div class="header-actions">
+    <span class="header-status" id="statusLine">就绪</span>
+  </div>
+</div>
+
+<!-- ── Tabs ── -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="run">▶ 运行</button>
+  <button class="tab-btn" data-tab="flash">🔥 烧录</button>
+  <button class="tab-btn" data-tab="monitor">📡 监视器</button>
+  <button class="tab-btn" data-tab="about">ℹ 说明</button>
+</div>
+
+<!-- ============================================================
+     PANEL: 运行
+     ============================================================ -->
+<div class="panel active" id="tab-run">
+  <div class="grid-2">
+    <!-- Left -->
+    <div>
+      <div class="led-wrapper">
+        <div class="section-title">LED 矩阵 · 8×8</div>
+        <div style="text-align:center">
+          <div class="led-matrix" id="ledMatrix"></div>
+          <div style="margin-top:10px;font-size:11px;font-weight:500;color:var(--text-dim)">
+            <span style="color:var(--cyan-dim)">X</span> <span id="coordX">—</span>
+            &nbsp;·&nbsp;
+            <span style="color:var(--violet-dim)">Y</span> <span id="coordY">—</span>
+            &nbsp;·&nbsp;
+            网格 (<span id="gridCol">-</span>, <span id="gridRow">-</span>)
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="section-title">轨迹选择</div>
+        <div class="traj-grid">
+          <button class="traj-btn" data-traj="line"><span class="traj-icon">━━</span> 直线</button>
+          <button class="traj-btn" data-traj="sin"><span class="traj-icon">〰️</span> 正弦</button>
+          <button class="traj-btn" data-traj="circle"><span class="traj-icon">◯</span> 圆弧</button>
+          <button class="traj-btn active" data-traj="all"><span class="traj-icon">◉</span> 全部</button>
+        </div>
+        <div class="ctrl-group" style="margin-top:10px">
+          <button class="btn btn-primary" id="btnSend">▶ 发送</button>
+          <button class="btn" id="btnPause">⏸ 暂停</button>
+          <button class="btn btn-gold" id="btnStep">⏭ 单步</button>
+          <button class="btn btn-danger" id="btnClear">✕ 清空</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div>
+      <div class="mcu-wrapper">
+        <div class="section-title">MCU · STC89C52RC</div>
+        <div class="mcu-die">
+          <div class="mcu-label">DIP40 封装</div>
+          <div class="pin-grid">
+            <div class="pin-side" id="pinsLeft"></div>
+            <div class="mcu-body">
+              <div class="chip-text"><span class="highlight">STC89C52</span></div>
+              <div class="chip-sub">11.0592 MHz · 12T · 8051</div>
+              <div class="chip-pins">
+                <div class="pin-item">
+                  <div class="pin-dot" id="dotRunLED"></div>
+                  <span class="pin-label">运行</span>
+                  <span class="pin-num">P3.4</span>
+                </div>
+                <div class="pin-item">
+                  <div class="pin-dot" id="dotErrLED"></div>
+                  <span class="pin-label">错误</span>
+                  <span class="pin-num">P3.5</span>
+                </div>
+                <div class="pin-item">
+                  <div class="pin-dot" id="dotEStopLED"></div>
+                  <span class="pin-label">急停</span>
+                  <span class="pin-num">P3.2</span>
+                </div>
+              </div>
+              <div style="margin-top:10px;font-size:10px;color:var(--text-dim)">
+                T0: <span style="color:var(--cyan-dim);font-weight:600" id="tickCount">0</span> 次
+                &nbsp;·&nbsp;
+                帧: <span style="color:var(--cyan-dim);font-weight:600" id="frameCountStat">0</span>
+              </div>
+            </div>
+            <div class="pin-side" id="pinsRight"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-bar" style="margin-top:10px">
+        <span class="status-item"><span class="status-dot off" id="dotPower"></span><span class="status-label">电源</span></span>
+        <span class="status-item"><span class="status-dot off" id="dotTx"></span><span class="status-label">发送</span></span>
+        <span class="status-item"><span class="status-dot off" id="dotRx"></span><span class="status-label">接收</span></span>
+        <span class="status-item"><span class="status-dot off" id="dotHeart"></span><span class="status-label">运行</span></span>
+        <span style="flex:1"></span>
+        <button class="btn btn-danger btn-sm" id="btnEStop">⛔ 急停</button>
+        <button class="btn btn-sm" id="btnReset">↻ 复位</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:14px">
+    <div class="section-title">控制台</div>
+    <div class="console" id="console">
+      <div><span class="time">[启动]</span> <span class="info">51 MCU 模拟器就绪</span></div>
+      <div><span class="time">[启动]</span> <span class="info"><strong>空格键</strong> 发送 · <strong>Esc</strong> 急停</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PANEL: 烧录
+     ============================================================ -->
+<div class="panel" id="tab-flash">
+  <div class="grid-2">
+    <div>
+      <div class="flash-area">
+        <div class="progress-container">
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">STC-ISP 编程器</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-bottom:16px">USB 转 TTL · 115200 波特率</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:16px">
+            <div>
+              <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;letter-spacing:0.5px">固件文件</div>
+              <select id="fwSelect" style="width:100%">
+                <option value="fw_v1.0">firmware_v1.0.hex</option>
+                <option value="fw_v0.9">firmware_v0.9.hex</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px;letter-spacing:0.5px">串口号</div>
+              <select id="portSelect" style="width:100%">
+                <option>COM1</option>
+                <option selected>COM3</option>
+                <option>COM4</option>
+                <option>COM5</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="progress-bar"><div class="progress-fill" id="flashProgressFill"></div></div>
+          <div class="progress-text" id="flashStatus">就绪 · 点击「下载」开始烧录</div>
+
+          <div class="ctrl-group" style="margin-top:14px;justify-content:center">
+            <button class="btn btn-success" id="btnFlash">🔥 下载</button>
+            <button class="btn btn-gold" id="btnPowerCycle">🔌 冷启动</button>
+            <button class="btn" id="btnReconnect">🔄 检测 MCU</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-title">烧录日志</div>
+      <div class="flash-log" id="flashLog">
+        <div><span class="time">[--:--:--]</span> <span class="info">STC-ISP 编程器已初始化</span></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="section-title" style="margin-top:8px">固件信息</div>
+        <div class="fw-info">
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 16px">
+            <span style="color:var(--text-dim)">文件</span>
+            <span id="fwFileName">firmware_v1.0.hex</span>
+            <span style="color:var(--text-dim)">大小</span>
+            <span id="fwSize">4,276 字节</span>
+            <span style="color:var(--text-dim)">日期</span>
+            <span id="fwDate">2026-06-21</span>
+            <span style="color:var(--text-dim)">编程器</span>
+            <span style="color:var(--cyan-dim)">stcgal 3.5</span>
+            <span style="color:var(--text-dim)">波特率</span>
+            <span style="color:var(--green-dim)">115200 bps</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PANEL: 监视器
+     ============================================================ -->
+<div class="panel" id="tab-monitor">
+  <div class="section-title">通信统计</div>
+  <div class="stat-grid" style="margin-bottom:14px">
+    <div class="stat-card"><div class="val" id="statFrames">0</div><div class="lbl">总帧数</div></div>
+    <div class="stat-card"><div class="val" id="statBytes">0</div><div class="lbl">总字节</div></div>
+    <div class="stat-card"><div class="val" id="statAcks">0</div><div class="lbl">ACK 数</div></div>
+    <div class="stat-card"><div class="val" id="statErrors">0</div><div class="lbl">错误数</div></div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-bottom:10px">
+    <button class="btn btn-sm" id="btnAutoScroll" style="color:var(--cyan-dim);border-color:rgba(0,119,204,0.2)">📜 自动滚动</button>
+    <button class="btn btn-sm" id="btnClearMon">🗑 清空</button>
+  </div>
+
+  <div class="proto-box" style="margin-bottom:10px;font-size:11px">
+    <span class="label">协议格式:</span>
+    <span class="field">AA</span> <span class="desc">帧头 ·</span>
+    <span class="field">MT</span> <span class="desc">运动模式 ·</span>
+    <span class="field">XH XL</span> <span class="desc">X 坐标 ·</span>
+    <span class="field">YH YL</span> <span class="desc">Y 坐标 ·</span>
+    <span class="field">VX VY</span> <span class="desc">速度 ·</span>
+    <span class="field">RS</span> <span class="desc">保留 ·</span>
+    <span class="field">CS</span> <span class="desc">XOR 校验</span>
+    <span style="display:inline-block;margin-left:12px;padding:1px 8px;border-radius:4px;background:rgba(0,119,68,0.06);color:var(--green-dim);font-size:10px">ACK: CC + 序号</span>
+  </div>
+
+  <div style="border:1px solid var(--border-subtle);border-radius:8px;overflow:hidden">
+    <div class="mon-header">
+      <span>时间</span>
+      <span>方向</span>
+      <span>数据 (HEX)</span>
+      <span>说明</span>
+    </div>
+    <div class="mon-body" id="monitorBody"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PANEL: 说明
+     ============================================================ -->
+<div class="panel" id="tab-about">
+  <div class="about-container">
+    <div class="about-card">
+      <h3>🎯 51 MCU 机器运动模拟器</h3>
+      <p style="color:var(--text-secondary);font-size:13px">
+        以浏览器交互演示 <strong>STC89C52</strong> 项目中的 UART 协议、
+        LED 点阵扫描和烧录编程的工作流程。
+      </p>
+    </div>
+    <div class="about-card">
+      <h3>⚙️ 模拟功能</h3>
+      <ul>
+        <li>10 字节帧协议解码 · 帧头 <strong>0xAA</strong> + XOR 校验</li>
+        <li>UART 逐字节接收状态机 · 9600-8N1</li>
+        <li>8×8 LED 点阵 · T0 定时器逐行动态扫描（2ms）</li>
+        <li>环形队列缓冲 · 32 帧容量</li>
+        <li>ACK 应答 · <strong>0xCC</strong> + 序号</li>
+        <li>急停中断 · INT0 (P3.2) 下降沿触发</li>
+        <li>安全停机 · 停止定时器 + LED 全灭 + 死循环</li>
+        <li>STC-ISP 冷启动烧录模拟</li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3>🔀 数据流</h3>
+      <div class="flow-diagram">
+        MATLAB  →  trajectory.txt  →  PC 控制层  →  串口 (COM3)<br>
+        &nbsp;&nbsp;&nbsp;↳  51 MCU (UART RX)  →  protocol_decode  →  queue<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳  led_plot_point  →  8×8 LED 矩阵  ←  T0 中断扫描
+      </div>
+    </div>
+    <div class="about-card">
+      <h3>📦 帧格式</h3>
+      <div style="background:#f4f7fc;border:1px solid rgba(0,119,204,0.08);border-radius:8px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;text-align:center;letter-spacing:2px;color:var(--text-code)">
+        <span style="color:var(--rose-dim)">AA</span>
+        <span style="color:var(--gold-dim)">MT</span>
+        <span style="color:var(--cyan-dim)">XH XL YH YL</span>
+        <span style="color:var(--violet-dim)">VX VY</span>
+        <span style="color:var(--text-dim)">RS</span>
+        <span style="color:var(--green-dim)">CS</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;font-size:10px;text-align:center">
+        <div><span style="color:var(--rose-dim)">AA</span><br><span style="color:var(--text-dim)">帧头</span></div>
+        <div><span style="color:var(--gold-dim)">MT</span><br><span style="color:var(--text-dim)">运动模式</span></div>
+        <div><span style="color:var(--cyan-dim)">X/Y</span><br><span style="color:var(--text-dim)">坐标 uint16</span></div>
+        <div><span style="color:var(--violet-dim)">V</span><br><span style="color:var(--text-dim)">速度 int8</span></div>
+        <div><span style="color:var(--green-dim)">CS</span><br><span style="color:var(--text-dim)">XOR 校验</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// 51 MCU Simulator Pro — Core Engine
+// ================================================================
+
+const FRAME_HEADER = 0xAA;
+const FRAME_SIZE = 10;
+const MATRIX_ROWS = 8;
+const MATRIX_COLS = 8;
+const QUEUE_CAPACITY = 32;
+const X_MIN = 0, X_MAX = 65535;
+const Y_MIN = 0, Y_MAX = 65535;
+
+const TRAJECTORIES = { line: [], sin: [], circle: [] };
+
+function generateTrajectories() {
+  const t = [];
+  for (let i = 0; i < 20; i++) t.push(i * 10 / 19);
+
+  const x1 = t, y1 = t;
+  const vx1 = [], vy1 = [];
+  for (let i = 1; i < x1.length; i++) { vx1.push(x1[i] - x1[i-1]); vy1.push(y1[i] - y1[i-1]); }
+  for (let i = 0; i < vx1.length; i++) TRAJECTORIES.line.push({ x: x1[i], y: y1[i], vx: vx1[i], vy: vy1[i] });
+
+  const x2 = t, y2 = t.map(v => Math.sin(v));
+  const vx2 = [], vy2 = [];
+  for (let i = 1; i < x2.length; i++) { vx2.push(x2[i] - x2[i-1]); vy2.push(y2[i] - y2[i-1]); }
+  for (let i = 0; i < vx2.length; i++) TRAJECTORIES.sin.push({ x: x2[i], y: y2[i], vx: vx2[i], vy: vy2[i] });
+
+  const x3 = t.map(v => Math.cos(v)), y3 = t.map(v => Math.sin(v));
+  const vx3 = [], vy3 = [];
+  for (let i = 1; i < x3.length; i++) { vx3.push(x3[i] - x3[i-1]); vy3.push(y3[i] - y3[i-1]); }
+  for (let i = 0; i < vx3.length; i++) TRAJECTORIES.circle.push({ x: x3[i], y: y3[i], vx: vx3[i], vy: vy3[i] });
+}
+generateTrajectories();
+
+function quantize(val, min, max) {
+  if (max - min < 1e-9) return 0;
+  return Math.round((Math.max(min, Math.min(max, val)) - min) / (max - min) * 65535);
+}
+function computeChecksum(frame) {
+  let cs = 0;
+  for (let i = 0; i < frame.length - 1; i++) cs ^= frame[i];
+  return cs;
+}
+
+const MCU = {
+  power: false, running: false, error: false, estop: false,
+  tick: 0, frameSeq: 0,
+  rxBuf: new Uint8Array(FRAME_SIZE), rxPos: 0, rxSynced: false,
+  queue: { buffer: [], head: 0, tail: 0, count: 0, capacity: QUEUE_CAPACITY },
+  framebuffer: new Uint8Array(8).fill(0), currentRow: 0, currentPoint: null,
+  totalFrames: 0, totalBytes: 0, totalAcks: 0, totalErrors: 0,
+  monitorLog: [],
+};
+
+function queuePush(item) {
+  const q = MCU.queue;
+  if (q.count >= q.capacity) return false;
+  q.buffer[q.head] = item;
+  q.head = (q.head + 1) % q.capacity;
+  q.count++;
+  return true;
+}
+function queuePop() {
+  const q = MCU.queue;
+  if (q.count === 0) return null;
+  const item = q.buffer[q.tail];
+  q.tail = (q.tail + 1) % q.capacity;
+  q.count--;
+  return item;
+}
+
+function protocolDecode(frame) {
+  if (frame[0] !== FRAME_HEADER) return null;
+  let cs = 0;
+  for (let i = 0; i < FRAME_SIZE - 1; i++) cs ^= frame[i];
+  if (cs !== frame[FRAME_SIZE - 1]) return null;
+  return { motionType: frame[1], x: (frame[2] << 8) | frame[3], y: (frame[4] << 8) | frame[5], vx: frame[6] << 24 >> 24, vy: frame[7] << 24 >> 24 };
+}
+
+function protocolFeed(byte) {
+  if (!MCU.running) return null;
+  if (!MCU.rxSynced) {
+    if (byte === FRAME_HEADER) { MCU.rxBuf[0] = byte; MCU.rxPos = 1; MCU.rxSynced = true; }
+    return null;
+  }
+  MCU.rxBuf[MCU.rxPos++] = byte;
+  if (MCU.rxPos >= FRAME_SIZE) {
+    MCU.rxPos = 0; MCU.rxSynced = false;
+    const data = protocolDecode(MCU.rxBuf);
+    if (data) { MCU.totalFrames++; MCU.totalBytes += FRAME_SIZE; queuePush(data); return data; }
+    else { MCU.totalErrors++; MCU.error = true; updateStatusLEDs(); return 'INVALID'; }
+  }
+  return null;
+}
+
+function mapToGrid(qx, qy) {
+  const rangeX = (X_MAX > X_MIN) ? (X_MAX - X_MIN) : 1;
+  let col = Math.round(((qx - X_MIN) * (MATRIX_COLS - 1)) / rangeX);
+  if (col >= MATRIX_COLS) col = MATRIX_COLS - 1; if (col < 0) col = 0;
+  const rangeY = (Y_MAX > Y_MIN) ? (Y_MAX - Y_MIN) : 1;
+  let row = Math.round(((qy - Y_MIN) * (MATRIX_ROWS - 1)) / rangeY);
+  if (row >= MATRIX_ROWS) row = MATRIX_ROWS - 1; if (row < 0) row = 0;
+  row = (MATRIX_ROWS - 1) - row;
+  return { col, row };
+}
+
+function ledPlotPoint(qx, qy) {
+  const { col, row } = mapToGrid(qx, qy);
+  MCU.framebuffer.fill(0);
+  MCU.framebuffer[row] = 1 << col;
+  MCU.currentPoint = { x: qx, y: qy, col, row };
+}
+function ledClear() { MCU.framebuffer.fill(0); MCU.currentPoint = null; }
+
+function ledScanRow() {
+  if (!MCU.power) return;
+  renderLEDRow(MCU.currentRow, MCU.framebuffer[MCU.currentRow]);
+  MCU.currentRow = (MCU.currentRow + 1) % MATRIX_ROWS;
+}
+
+function sendAck(seq) { MCU.totalAcks++; addMonitorEntry('←', [0xCC, seq & 0xFF], `ACK 序号=${seq & 0xFF}`); }
+
+function initLEDMatrix() {
+  const c = document.getElementById('ledMatrix'); c.innerHTML = '';
+  for (let r = 0; r < MATRIX_ROWS; r++)
+    for (let i = 0; i < MATRIX_COLS; i++) {
+      const cell = document.createElement('div'); cell.className = 'led-cell';
+      cell.dataset.row = r; cell.dataset.col = i; c.appendChild(cell);
+    }
+}
+
+function renderLEDRow(row, colData) {
+  const cells = document.querySelectorAll('.led-cell');
+  for (let c = 0; c < MATRIX_COLS; c++) {
+    const idx = row * MATRIX_COLS + c;
+    cells[idx].className = 'led-cell' + ((colData & (1 << c)) ? ' on' : '');
+  }
+}
+
+function renderFullLED() {
+  const cells = document.querySelectorAll('.led-cell');
+  for (let r = 0; r < MATRIX_ROWS; r++)
+    for (let c = 0; c < MATRIX_COLS; c++) {
+      const idx = r * MATRIX_COLS + c;
+      cells[idx].className = 'led-cell' + ((MCU.framebuffer[r] & (1 << c)) ? ' on' : '');
+    }
+}
+
+function updateCoordDisplay() {
+  if (MCU.currentPoint) {
+    document.getElementById('coordX').textContent = MCU.currentPoint.x;
+    document.getElementById('coordY').textContent = MCU.currentPoint.y;
+    document.getElementById('gridCol').textContent = MCU.currentPoint.col;
+    document.getElementById('gridRow').textContent = MCU.currentPoint.row;
+  } else {
+    document.getElementById('coordX').textContent = '—';
+    document.getElementById('coordY').textContent = '—';
+    document.getElementById('gridCol').textContent = '-';
+    document.getElementById('gridRow').textContent = '-';
+  }
+}
+
+function updateStatusLEDs() {
+  const set = (id, on, cls = 'green-dot') => { const el = document.getElementById(id); if (el) el.className = 'pin-dot' + (on ? ' active ' + cls : ''); };
+  set('dotRunLED', MCU.running, 'green-dot');
+  set('dotErrLED', MCU.error, 'red-dot');
+  set('dotEStopLED', MCU.estop, 'red-dot');
+  document.getElementById('dotPower').className = 'status-dot' + (MCU.power ? ' on' : ' off');
+  document.getElementById('dotHeart').className = 'status-dot' + (MCU.running ? ' on' : ' off');
+  document.getElementById('tickCount').textContent = MCU.tick;
+  document.getElementById('frameCountStat').textContent = MCU.totalFrames;
+  const badge = document.getElementById('powerBadge');
+  if (MCU.power) { badge.innerHTML = '🔌 已上电'; badge.style.color = 'var(--green-dim)'; badge.style.borderColor = 'rgba(0,119,68,0.3)'; }
+  else { badge.innerHTML = '◌ 未上电'; badge.style.color = 'rgba(0,0,0,0.3)'; badge.style.borderColor = 'rgba(0,0,0,0.08)'; }
+}
+
+function flashTx() {
+  const d = document.getElementById('dotTx');
+  d.className = 'status-dot on tx';
+  setTimeout(() => { if (d) d.className = 'status-dot off'; }, 120);
+}
+function flashRx() {
+  const d = document.getElementById('dotRx');
+  d.className = 'status-dot on rx';
+  setTimeout(() => { if (d) d.className = 'status-dot off'; }, 120);
+}
+
+function initPins() {
+  const left = [
+    {n:'P1.0'},{n:'P1.1'},{n:'P1.2'},{n:'P1.3'},{n:'P1.4'},{n:'P1.5'},{n:'P1.6'},{n:'P1.7'},
+    {n:'RST'},{n:'P3.0',c:'blue-dot'},{n:'P3.1',c:'yellow-dot'},{n:'P3.2',c:'red-dot'},{n:'P3.3'},
+    {n:'P3.4',c:'green-dot'},{n:'P3.5',c:'red-dot'},{n:'P3.6'},{n:'P3.7'},{n:'XTAL2'},{n:'XTAL1'},{n:'GND'},
+  ].map((p,i) => ({...p,num:20-i}));
+  const right = [
+    {n:'VCC',c:'green-dot'},{n:'P0.0'},{n:'P0.1'},{n:'P0.2'},{n:'P0.3'},{n:'P0.4'},{n:'P0.5'},{n:'P0.6'},{n:'P0.7'},
+    {n:'EA'},{n:'ALE'},{n:'PSEN'},{n:'P2.7'},{n:'P2.6'},{n:'P2.5'},{n:'P2.4'},{n:'P2.3'},{n:'P2.2'},{n:'P2.1'},{n:'P2.0'},
+  ].map((p,i) => ({...p,num:40-i}));
+
+  function render(pins, id) {
+    const c = document.getElementById(id); c.innerHTML = '';
+    pins.forEach(p => { c.innerHTML += `<div class="pin-row"><span class="num">${p.num}</span><span class="pin-dot ${p.c||''}"></span><span class="name">${p.n}</span></div>`; });
+  }
+  render(left, 'pinsLeft');
+  render(right, 'pinsRight');
+}
+
+function log(msg, type = 'info') {
+  const el = document.getElementById('console');
+  const t = new Date();
+  const ts = `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}`;
+  el.innerHTML += `<div><span class="time">[${ts}]</span> <span class="${type}">${msg}</span></div>`;
+  el.scrollTop = el.scrollHeight;
+  document.getElementById('statusLine').textContent = msg;
+}
+
+function burnLog(msg, type = 'info') {
+  const el = document.getElementById('flashLog');
+  const t = new Date();
+  const ts = `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}`;
+  el.innerHTML += `<div><span class="time">[${ts}]</span> <span class="${type}">${msg}</span></div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function addMonitorEntry(dir, data, desc) {
+  const hex = Array.from(data).map(b => b.toString(16).padStart(2,'0').toUpperCase()).join(' ');
+  const t = new Date();
+  const ts = `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}.${String(t.getMilliseconds()).padStart(3,'0')}`;
+  MCU.monitorLog.push({ time: ts, dir, hex, desc });
+  const body = document.getElementById('monitorBody');
+  const dirClass = dir === '→' ? 'dir-tx' : 'dir-rx';
+  body.innerHTML += `<div class="hex-row"><span class="ts">${ts}</span><span class="${dirClass}">${dir}</span><span class="hex-data">${hex}</span><span class="hex-desc">${desc}</span></div>`;
+  body.scrollTop = body.scrollHeight;
+  document.getElementById('statFrames').textContent = MCU.totalFrames;
+  document.getElementById('statBytes').textContent = MCU.totalBytes;
+  document.getElementById('statAcks').textContent = MCU.totalAcks;
+  document.getElementById('statErrors').textContent = MCU.totalErrors;
+  if (MCU.monitorLog.length > 500) { MCU.monitorLog.shift(); if (body.children.length > 500) body.removeChild(body.firstChild); }
+}
+
+function encodeFrame(point, motionType) {
+  const frame = new Uint8Array(FRAME_SIZE);
+  frame[0] = FRAME_HEADER; frame[1] = motionType;
+  const qx = quantize(point.x, X_MIN, X_MAX), qy = quantize(point.y, Y_MIN, Y_MAX);
+  frame[2] = (qx >> 8) & 0xFF; frame[3] = qx & 0xFF;
+  frame[4] = (qy >> 8) & 0xFF; frame[5] = qy & 0xFF;
+  const vs = 5.0;
+  frame[6] = Math.max(-128, Math.min(127, Math.round(point.vx * vs))) & 0xFF;
+  frame[7] = Math.max(-128, Math.min(127, Math.round(point.vy * vs))) & 0xFF;
+  frame[8] = 0x00; frame[9] = computeChecksum(frame);
+  return frame;
+}
+
+let sendTimer = null, currentFrames = [], sendIndex = 0, byteIndex = 0, paused = false;
+
+function sendNextByte() {
+  if (!MCU.power || paused || sendIndex >= currentFrames.length) {
+    if (sendIndex >= currentFrames.length && !paused) { log('✅ 所有帧发送完成', 'info'); updateStats(); sendTimer = null; }
+    return;
+  }
+  const frame = currentFrames[sendIndex];
+  flashTx();
+  const result = protocolFeed(frame[byteIndex]);
+  byteIndex++;
+  if (byteIndex === 1) {
+    const hexAll = Array.from(frame).map(b => b.toString(16).padStart(2,'0').toUpperCase()).join(' ');
+    const motionNames = ['直线','圆弧','正弦'];
+    const mt = frame[1] < 3 ? motionNames[frame[1]] : '?';
+    addMonitorEntry('→', frame, `[${sendIndex}] ${mt} → (${hexAll})`);
+  }
+  if (byteIndex >= FRAME_SIZE) {
+    const data = result;
+    if (data && data !== 'INVALID') {
+      ledPlotPoint(data.x, data.y); renderFullLED(); updateCoordDisplay();
+      flashRx(); sendAck(MCU.totalFrames);
+    } else if (data === 'INVALID') { log('⚠ 帧校验失败，已丢弃', 'warn'); addMonitorEntry('←', [0xEE], 'NAK 校验失败'); }
+    sendIndex++; byteIndex = 0; updateStats();
+  }
+}
+
+function sendTrajectory(points, motionType) {
+  if (!MCU.power) { log('⚠ MCU 未上电，请先冷启动或烧录', 'warn'); return; }
+  if (!MCU.running) { log('⚠ MCU 未运行', 'warn'); return; }
+  if (sendTimer) { clearInterval(sendTimer); sendTimer = null; }
+  currentFrames = points.map(p => encodeFrame(p, motionType));
+  sendIndex = 0; byteIndex = 0; paused = false;
+  const names = ['直线','圆弧','正弦'];
+  log(`📤 发送轨迹: ${names[motionType]||'全部'} (${currentFrames.length} 帧, ${currentFrames.length*FRAME_SIZE} 字节)`, 'info');
+  document.getElementById('btnPause').textContent = '⏸ 暂停';
+  sendTimer = setInterval(sendNextByte, 15);
+}
+
+function updateStats() {
+  document.getElementById('statFrames').textContent = MCU.totalFrames;
+  document.getElementById('statBytes').textContent = MCU.totalBytes;
+  document.getElementById('statAcks').textContent = MCU.totalAcks;
+  document.getElementById('statErrors').textContent = MCU.totalErrors;
+  document.getElementById('tickCount').textContent = MCU.tick;
+  document.getElementById('frameCountStat').textContent = MCU.totalFrames;
+}
+
+function simulateFlash() {
+  const fwName = document.getElementById('fwSelect').value;
+  const port = document.getElementById('portSelect').value;
+  const fill = document.getElementById('flashProgressFill');
+  const status = document.getElementById('flashStatus');
+  burnLog(`🔥 开始烧录: ${fwName} → ${port}`, 'info');
+  burnLog('🔌 请给 MCU 断电...', 'warn');
+  status.textContent = '等待 MCU 断电...';
+  setTimeout(() => {
+    burnLog('⚡ 请给 MCU 上电 (冷启动)...', 'warn');
+    status.textContent = '检测 MCU...';
+    setTimeout(() => {
+      burnLog('✅ 检测到 MCU: STC89C52RC @ 11.0592MHz', 'info');
+      burnLog('📦 固件大小: 4,276 字节', 'info');
+      status.textContent = '正在编程...';
+      let progress = 0;
+      const fi = setInterval(() => {
+        progress += 2 + Math.random() * 5;
+        if (progress > 100) progress = 100;
+        fill.style.width = progress + '%';
+        if (progress % 20 < 2) burnLog(`  编程中... ${Math.floor(progress)}%`, 'info');
+        if (progress >= 100) {
+          clearInterval(fi);
+          burnLog('✅ 编程完成！', 'info');
+          burnLog('🔍 正在校验...', 'info');
+          status.textContent = '校验中...';
+          setTimeout(() => {
+            burnLog('✅ 校验通过！烧录成功 🎉', 'info');
+            status.textContent = '✅ 完成';
+            MCU.power = true; MCU.running = true; MCU.error = false; MCU.estop = false;
+            updateStatusLEDs(); log('⚡ MCU 启动完成，等待接收帧数据...', 'info');
+            document.getElementById('btnPowerCycle').textContent = '🔌 断电';
+          }, 800);
+        }
+      }, 100);
+    }, 1000);
+  }, 800);
+}
+
+function powerCycle() {
+  const wasOn = MCU.power;
+  if (wasOn) {
+    MCU.power = false; MCU.running = false; MCU.estop = false; MCU.tick = 0;
+    MCU.rxPos = 0; MCU.rxSynced = false;
+    MCU.queue.head = 0; MCU.queue.tail = 0; MCU.queue.count = 0;
+    ledClear(); renderFullLED(); updateStatusLEDs();
+    if (sendTimer) { clearInterval(sendTimer); sendTimer = null; }
+    log('🔌 MCU 已断电', 'warn');
+    document.getElementById('btnPowerCycle').textContent = '🔌 上电';
+    addMonitorEntry('←', [], 'MCU 断开连接');
+  } else {
+    MCU.power = true; MCU.running = true; MCU.error = false; MCU.estop = false;
+    MCU.tick = 0; MCU.totalFrames = 0; MCU.totalBytes = 0; MCU.totalAcks = 0; MCU.totalErrors = 0;
+    ledClear(); renderFullLED(); updateStatusLEDs();
+    log('⚡ MCU 上电启动 (冷启动)', 'info');
+    log('📻 串口: 9600-8N1 已初始化', 'info');
+    log('⏱ T0 定时器启动: 2ms 行扫描', 'info');
+    document.getElementById('btnPowerCycle').textContent = '🔌 断电';
+    addMonitorEntry('←', [], 'MCU 已连接 @ 9600 baud');
+  }
+  updateStats();
+}
+
+function emergencyStop() {
+  if (!MCU.power) return;
+  MCU.estop = true; MCU.running = false; MCU.error = true;
+  ledClear(); renderFullLED(); updateStatusLEDs();
+  if (sendTimer) { clearInterval(sendTimer); sendTimer = null; }
+  paused = false; sendIndex = 0; byteIndex = 0; currentFrames = [];
+  log('⛔ 急停触发！P3.2 (INT0) 下降沿中断', 'err');
+  log('🔴 系统已停止: T0 已关闭, LED 已熄灭', 'err');
+  addMonitorEntry('←', [], '⛔ 急停触发');
+}
+
+function resetMCU() {
+  if (sendTimer) { clearInterval(sendTimer); sendTimer = null; }
+  MCU.power = true; MCU.running = true; MCU.error = false; MCU.estop = false;
+  MCU.tick = 0; MCU.totalFrames = 0; MCU.totalBytes = 0; MCU.totalAcks = 0; MCU.totalErrors = 0;
+  MCU.rxPos = 0; MCU.rxSynced = false;
+  MCU.queue.head = 0; MCU.queue.tail = 0; MCU.queue.count = 0; MCU.currentPoint = null;
+  currentFrames = []; sendIndex = 0; byteIndex = 0; paused = false;
+  ledClear(); renderFullLED(); updateStatusLEDs(); updateStats();
+  log('↻ MCU 复位完成', 'info');
+  log('🟢 就绪，等待接收帧数据...', 'info');
+}
+
+setInterval(() => { if (MCU.power && MCU.running) { MCU.tick++; ledScanRow(); updateStatusLEDs(); } }, 40);
+
+document.addEventListener('DOMContentLoaded', () => {
+  initLEDMatrix(); initPins(); updateStatusLEDs();
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.traj-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.traj-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.getElementById('btnSend').addEventListener('click', () => {
+    const active = document.querySelector('.traj-btn.active');
+    const traj = active ? active.dataset.traj : 'all';
+    if (traj === 'line') sendTrajectory(TRAJECTORIES.line, 0);
+    else if (traj === 'sin') sendTrajectory(TRAJECTORIES.sin, 2);
+    else if (traj === 'circle') sendTrajectory(TRAJECTORIES.circle, 1);
+    else {
+      if (!MCU.power || !MCU.running) { log('⚠ MCU 未上电', 'warn'); return; }
+      const all = [
+        ...TRAJECTORIES.line.map(p => encodeFrame(p, 0)),
+        ...TRAJECTORIES.circle.map(p => encodeFrame(p, 1)),
+        ...TRAJECTORIES.sin.map(p => encodeFrame(p, 2)),
+      ];
+      if (sendTimer) { clearInterval(sendTimer); sendTimer = null; }
+      currentFrames = all; sendIndex = 0; byteIndex = 0; paused = false;
+      log(`📤 发送全部轨迹: 直线(19) + 圆弧(19) + 正弦(19) = ${all.length} 帧`, 'info');
+      document.getElementById('btnPause').textContent = '⏸ 暂停';
+      sendTimer = setInterval(sendNextByte, 15);
+    }
+  });
+
+  document.getElementById('btnPause').addEventListener('click', () => { paused = !paused; document.getElementById('btnPause').textContent = paused ? '▶ 继续' : '⏸ 暂停'; });
+  document.getElementById('btnStep').addEventListener('click', () => {
+    if (sendTimer) { clearInterval(sendTimer); sendTimer = null; }
+    paused = false; let steps = 0;
+    while (sendIndex < currentFrames.length && steps < 20) { sendNextByte(); steps++; if (byteIndex === 0) break; }
+    if (steps === 0 && sendIndex >= currentFrames.length) log('✅ 所有帧已发完', 'info');
+  });
+  document.getElementById('btnClear').addEventListener('click', () => {
+    if (sendTimer) { clearInterval(sendTimer); sendTimer = null; }
+    currentFrames = []; sendIndex = 0; byteIndex = 0; paused = false;
+    ledClear(); renderFullLED(); updateCoordDisplay();
+  });
+
+  document.getElementById('btnFlash').addEventListener('click', () => {
+    if (!MCU.power) { simulateFlash(); }
+    else { if (confirm('MCU 当前已上电，需要断电才能烧录。是否继续？')) { MCU.power = false; MCU.running = false; updateStatusLEDs(); setTimeout(simulateFlash, 500); } }
+  });
+  document.getElementById('btnPowerCycle').addEventListener('click', powerCycle);
+  document.getElementById('btnReconnect').addEventListener('click', () => {
+    burnLog('🔍 扫描串口设备...', 'info');
+    setTimeout(() => {
+      if (Math.random() > 0.2) { burnLog('✅ 检测到 STC89C52RC @ COM3', 'info'); burnLog('🔰 固件版本: v1.0', 'info'); }
+      else { burnLog('❌ 未检测到设备，请检查接线', 'err'); }
+    }, 600);
+  });
+
+  document.getElementById('btnEStop').addEventListener('click', emergencyStop);
+  document.getElementById('btnReset').addEventListener('click', resetMCU);
+
+  document.getElementById('btnAutoScroll').addEventListener('click', () => {
+    const on = document.getElementById('btnAutoScroll').textContent.includes('自动滚动');
+    document.getElementById('btnAutoScroll').textContent = on ? '📜 自动滚动 ✓' : '📜 自动滚动';
+    document.getElementById('btnAutoScroll').style.color = on ? 'var(--green-dim)' : 'var(--cyan-dim)';
+  });
+  document.getElementById('btnClearMon').addEventListener('click', () => { document.getElementById('monitorBody').innerHTML = ''; MCU.monitorLog = []; });
+
+  document.getElementById('fwSelect').addEventListener('change', e => {
+    const info = { 'fw_v1.0': ['firmware_v1.0.hex','4,276 字节','2026-06-21'], 'fw_v0.9': ['firmware_v0.9.hex','3,892 字节','2026-05-15'] }[e.target.value] || ['firmware_v1.0.hex','4,276 字节','2026-06-21'];
+    document.getElementById('fwFileName').textContent = info[0];
+    document.getElementById('fwSize').textContent = info[1];
+    document.getElementById('fwDate').textContent = info[2];
+  });
+
+  updateStats();
+  log('💡 空格键发送 · Esc 急停', 'info');
+
+  document.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'Space') { e.preventDefault(); document.getElementById('btnSend').click(); }
+    if (e.key === 'Escape') { emergencyStop(); }
+  });
+});
+</script>
+</body>
+</html>

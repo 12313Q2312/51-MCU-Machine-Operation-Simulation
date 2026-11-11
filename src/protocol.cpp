@@ -33,10 +33,13 @@ std::vector<uint8_t> encodeFrames(const std::vector<Point>& trajectory,
 		minVy = std::min(minVy, p.vy); maxVy = std::max(maxVy, p.vy);
 	}
 
-	std::cout << "[DEBUG encodeFrames] bounds x=[" << minX << ", " << maxX
-	          << "] y=[" << minY << ", " << maxY
-	          << "] vx=[" << minVx << ", " << maxVx
-	          << "] vy=[" << minVy << ", " << maxVy << "]" << std::endl;
+
+	// 速度量化到 int8: vx 和 vy 独立缩放，避免量纲差异时压扁
+	double vScaleX = 127.0 / std::max({std::abs(minVx), std::abs(maxVx), 1e-9});
+	double vScaleY = 127.0 / std::max({std::abs(minVy), std::abs(maxVy), 1e-9});
+
+	std::cout << "[DEBUG encodeFrames] vScaleX=" << vScaleX
+	          << " vScaleY=" << vScaleY << std::endl;
 
 	std::vector<uint8_t> frames;
 	frames.reserve(trajectory.size() * FRAME_SIZE);
@@ -53,14 +56,11 @@ std::vector<uint8_t> encodeFrames(const std::vector<Point>& trajectory,
 		frame[4] = static_cast<uint8_t>((qy >> 8) & 0xFF);
 		frame[5] = static_cast<uint8_t>(qy & 0xFF);
 
-		// 速度量化到 int8: 自动缩放到 [-127, 127]
-		double vAbsMax = std::max({std::abs(minVx), std::abs(maxVx),
-		                           std::abs(minVy), std::abs(maxVy), 1e-9});
-		double vScale = 127.0 / vAbsMax;
+		// vx, vy 独立缩放到 int8 范围
 		frame[6] = static_cast<uint8_t>(static_cast<int8_t>(
-			std::max(-128.0, std::min(127.0, p.vx * vScale))));
+			std::max(-128.0, std::min(127.0, p.vx * vScaleX))));
 		frame[7] = static_cast<uint8_t>(static_cast<int8_t>(
-			std::max(-128.0, std::min(127.0, p.vy * vScale))));
+			std::max(-128.0, std::min(127.0, p.vy * vScaleY))));
 
 		frame[8] = 0x00;
 
