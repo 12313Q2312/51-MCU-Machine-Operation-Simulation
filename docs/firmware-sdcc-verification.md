@@ -75,3 +75,24 @@ PC 端新 MotionControl 执行器按每帧 ACK 后才发送下一帧，因此对
 **修复策略：** 在 `MCU_8051`（当前 SDCC/STC89C52 目标）下，将唯一的全局 `frame_queue` 声明为 `__idata`，使用 8052 兼容芯片上高 128 字节、仅可间接寻址的内部 RAM；其余 Keil/STM32 分支继续沿用原声明。队列仍为 8 帧，算法、字节格式及 UART/LED 引脚不变。此改动假定目标确有完整的 256 字节内部 RAM；**不适用于仅有 128 字节 RAM 的老式 8051**。
 
 后续验收必须检查新 SDCC 链接日志、`firmware.map` 的 IDATA/栈布局以及非空 HEX 校验，同时保留 PC 端队列和三平台回归。编译通过也不能替代 ISR/主循环组合的实际栈深度测量，更不能证明真实硬件上板正确。
+
+
+## v0.2.1 成功验证记录（仅目标构建）
+
+目标源码提交 `21975ed2aea42b9028e411b8eaa59a9fd98de42a`，其 [SDCC CI #43790070145](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43790070145) 的固件构建、HEX 校验、自检、Artifact 上传全部成功。[原有 PC 三平台 CI #43790070109](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43790070109) 的 Windows/MSVC、Linux/GCC、Linux/Clang 三项全部成功，新增队列边界测试随 CTest 执行。以上运行对应的 PR head SHA 为 `21975ed2aea42b9028e411b8eaa59a9fd98de42a`；PR 后续文档提交仍需单独核对新 SHA。
+
+通过运行 Artifact 读取的 `firmware.map`/`firmware.mem`：
+
+| 内容 | 实际值 | 工程含义 |
+|---|---|---|
+| SDCC | 4.2.0, Ubuntu 24.04 | 工具链版本已经记录，发行版包未锁定 |
+| DSEG | 127 B / 128 B | 直接寻址 RAM 极为紧张，后续新增全局变量容易再次溢出 |
+| ISEG | 59 B, `_frame_queue` | 8 帧队列确实从 DSEG 进入间接寻址内部 RAM |
+| 栈可用区间 | 起点 `0xA4`，余量 92 B | **静态链接器布局**，不代表 ISR/嵌套调用时实际安全余量 |
+| ROM 使用 | `0x0992` 字节（2451 B） | 仅为生成的镜像大小统计 |
+| Intel HEX SHA-256 | `e9de05040bcf686e91cdfb489a963b97262f2616d38561064a3aabe53cc29ca9` | Artifact 所附 HEX 的可核验摘要 |
+| IHX SHA-256 | `5aa1f262f69bc455dfea7b9b92b764df9e1cd75d2267a52b00f8b0069f875e07` | 原始目标输出摘要 |
+
+**残余风险：** 这里使用的目标为有高 128 字节间接寻址内部 RAM 的 STC89C52（8052 兼容）。不能直接用该固件替换到只有 128 字节内部 RAM 的 8051。DSEG 已占 127 B，仍需后续优化以留出增长空间。没有真实硬件，无法证明最高栈深度、2ms LED ISR、串口输入密集情形和硬件急停时序。硬件验证要独立获批；不能把此 CI 的成功称为上板验收成功。
+
+**恢复说明：** Draft PR #7 尚未合并。若撤回本轮内存布局变更，可在分支上 revert `21975ed2...`（把队列从 IDATA 移回 DSEG，固件目标编译会重新失败）；若彻底撤回本轮，可关闭 PR #7，不影响 `main`。

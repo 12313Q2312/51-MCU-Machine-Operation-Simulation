@@ -89,7 +89,8 @@ ctest --test-dir build --output-on-failure
 | PC/固件协议互操作 | C++ 帧交给 firmware/protocol.c 解码，LED 驱动全部 64 个格点经主机测试 |
 | 执行异常 | 模拟设备覆盖节拍、ACK 回绕/超时/错序、部分写入、取消和异常后的停止 |
 | 在线 AI | Windows 适配器已实现，真实 API 与中文指令理解准确率待验收 |
-| 开发板 | 串口执行接口已实现；目标固件编译、烧录、真实串口及 LED 演示待联调 |
+| 8051 固件 | SDCC 4.2.0 目标编译、链接及 Intel HEX 校验已在 [v0.2.1 CI](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43790070145) 通过；RAM/栈实际运行余量尚未上板测量 |
+| 开发板 | 串口执行接口已实现；烧录、真实串口 ACK、LED 演示与急停行为仍待上板联调 |
 
 主线已通过 Windows/MSVC、Linux/GCC 和 Linux/Clang 的构建与测试。通过记录底部的 Artifacts 提供各平台程序和离线演示。也可用上方命令生成同类产物。[主线测试与演示下载](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43028625440)
 
