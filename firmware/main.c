@@ -28,7 +28,16 @@
 #endif
 
 /* ---- 全局状态 ---- */
+/*
+ * SDCC on STC89C52 (8052 core): put the bounded receive queue in
+ * indirectly addressable internal RAM, freeing scarce direct DSEG bytes.
+ * Do not enable this on 128-byte-only 8051 devices.
+ */
+#if defined(MCU_8051)
+static __idata FrameQueue frame_queue;
+#else
 static FrameQueue frame_queue;
+#endif
 static volatile uint8_t system_running = 1;  /* 急停标志 */
 static volatile uint32_t tick_counter = 0;   /* 2ms tick 计数 */
 

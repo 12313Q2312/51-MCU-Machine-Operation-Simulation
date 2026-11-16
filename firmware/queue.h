@@ -1,7 +1,7 @@
 ﻿/**
  * firmware/queue.h — 环形缓冲区 (用于缓冲接收到的帧数据)
  *
- * 无锁设计，单生产者(ISR) + 单消费者(主循环)。
+ * 当前 main.c 在主循环轮询 UART 并收取协议帧，随后同在主循环出队；本实现没有跨 ISR 并发同步保证。
  */
 #ifndef FW_QUEUE_H
 #define FW_QUEUE_H
