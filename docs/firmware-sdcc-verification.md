@@ -2,11 +2,11 @@
 
 ## 目的与边界
 
-本验证只回答：`firmware/` 中现有 STC89C52 / 8051 源码，能否经 SDCC 编译、链接，生成结构有效且非空的 Intel HEX 固件文件。
+本验证的 v0.2 阶段只回答：`firmware/` 中现有 STC89C52 / 8051 源码，能否经 SDCC 编译、链接，生成结构有效且非空的 Intel HEX 固件文件。
 
 它**不**证明开发板烧录、引脚接线、时序、RAM/Flash 资源满足实际板型、UART 通信、LED 显示或急停行为正确。没有真实烧录、设备交互或网络 API 调用。
 
-此阶段**不修改**固件源码、协议、管脚定义、编译参数、主机程序或默认分支。
+v0.2 初始版本没有修改固件源码。经负责人进一步批准，v0.2.1 仅将 \`firmware/queue.h\` 的缓存上限从 32 帧减为 8 帧，并增加主机端队列行为测试。未更改协议、管脚、时序、固件构建参数、主机串口逻辑或默认分支。
 
 ## 自动化验证
 
@@ -42,3 +42,27 @@ sha256sum firmware/build/firmware.ihx firmware/build/firmware.hex
 - [ ] 真实开发板编译参数、烧录、串口 ACK 和物理 LED 联调另立工单，由负责人审批后实施。
 
 状态以对应运行的实际 job 日志与 head SHA 为准。本文件中的验收勾选框不代表已执行。
+
+
+## v0.2.1：8051 内部 RAM 占用优化与回归（2026-11-16）
+
+### 触发证据
+
+首次目标编译对应 [Actions #43781317339](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43781317339)、提交 `ef38a60a76dbd25a1a60f641e76df3e2ecbe7ecc`。Ubuntu 24.04 上 SDCC 4.2.0 成功编译四个 C 文件，在链接阶段报告：
+`?ASlink-Error-Could not get 239 consecutive bytes in internal RAM for area DSEG.`
+未生成最终 HEX；PC 三平台构建在 [Actions #43781317246](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43781317246) 上通过。
+
+`firmware/main.c` 静态持有 `FrameQueue`；原先配置为 32 个 `FrameData`，结构体的实际大小由目标编译器决定，按字段共约 7 字节，原缓存约 224 字节。STC89C52 是 RAM 紧张的 8051 目标。减为 8 帧可降低缓存静态占用约 168 字节（字段大小不变时）；并不据此推定其他数据区、栈或 RAM 余量足够。
+
+PC 端新 MotionControl 执行器按每帧 ACK 后才发送下一帧，因此对当前 PC 发送模式，一次最多缓存 8 帧仍留有缓冲余量；但外部发送器若持续突发超过 8 帧，队列可能溢出。当前固件队列满时点亮错误灯，不对未入队的帧发送 ACK。缓冲容量改变属于兼容性影响，不能宣称所有旧发送器均兼容。
+
+### 本轮改动与测试
+
+- `firmware/queue.h`：容量 32 → 8，不修改队列算法、帧结构及任何串口/LED 逻辑。
+- `tests/test_firmware_queue.c`：直接链接现有 `firmware/queue.c`，验证容量边界、满载拒收且不覆盖旧帧、FIFO、环形回绕、重复进出队，使用显式失败返回值，不依赖 Release 断言。
+- `tests/CMakeLists.txt`：将 `test_firmware_queue` 纳入现有 Windows/MSVC 和 Linux/GCC/Clang CTest。
+- 继续由 SDCC CI 判断是否真的能编译、链接、生成有效 Intel HEX；通过后的完整 SHA、工具链与内存报告必须用实际运行证据填写，不能仅由此文档推定。
+
+**待人工验收：** 8051 片上 RAM 用量、真实板型、电气接口、烧录、串口 ACK 与 LED 实物行为。尤其不能用缩小缓冲来掩盖连续输入时的丢帧风险。
+
+**恢复：** 撤销本次 `queue.h` 容量修改及配套测试提交即可恢复 32 帧；不修改或强推 `main`。全部改动继续留在 Draft PR #7，由负责人审批合并。

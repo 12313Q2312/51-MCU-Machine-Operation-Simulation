@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include "protocol.h"
 
-#define QUEUE_CAPACITY 32   /* 最多缓存 32 帧 */
+#define QUEUE_CAPACITY 8    /* 8051: 小 RAM 设备；PC 串口逐帧等待 ACK */
 
 typedef struct {
     FrameData buffer[QUEUE_CAPACITY];
