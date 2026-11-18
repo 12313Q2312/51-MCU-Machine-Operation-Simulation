@@ -1,5 +1,7 @@
 # Text-to-MCU Motion Control
 
+> **维护状态（2026-11-18）：阶段冻结。** 当前已完成的软件/仿真验证不等于硬件验收；后续恢复开发前请先阅读 [冻结交接与重新启动条件](docs/FREEZE_HANDOFF_20261118.md)。
+
 [![CMake 构建和测试](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/workflows/cmake-multi-platform.yml/badge.svg?branch=main)](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/workflows/cmake-multi-platform.yml)
 
 **用一句中文描述运动，让 AI 生成计划，在 51 单片机的 LED 点阵上演示。**
