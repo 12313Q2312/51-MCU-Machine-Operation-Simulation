@@ -33,3 +33,13 @@ add_test(NAME test_control_cli COMMAND ${Python3_EXECUTABLE}
 add_executable(test_firmware_queue test_firmware_queue.c ../firmware/queue.c)
 target_include_directories(test_firmware_queue PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../firmware)
 add_test(NAME test_firmware_queue COMMAND test_firmware_queue)
+
+# Real protocol.c / led_matrix.c / queue.c on the host. Explicit checks stay active in Release.
+add_executable(test_firmware_protocol
+    test_firmware_protocol.c
+    ../firmware/protocol.c
+    ../firmware/led_matrix.c
+    ../firmware/queue.c)
+target_compile_definitions(test_firmware_protocol PRIVATE MCU_HOST_TEST)
+target_include_directories(test_firmware_protocol PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../firmware)
+add_test(NAME test_firmware_protocol COMMAND test_firmware_protocol)

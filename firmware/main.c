@@ -41,7 +41,7 @@ static FrameQueue frame_queue;
 static volatile uint8_t system_running = 1;  /* 急停标志 */
 static volatile uint32_t tick_counter = 0;   /* 2ms tick 计数 */
 
-/* ---- 帧就绪回调: 由 protocol_feed 在 ISR 中调用 ---- */
+/* ---- 帧就绪回调: 主循环里 protocol_feed 凑满合法帧后调用，不在 ISR 中 ---- */
 static void on_frame_received(const FrameData* data) {
     if (!queue_push(&frame_queue, data)) {
         HAL_LED_ERR_ON();  /* 队列满 → 错误指示 */
@@ -169,6 +169,7 @@ int main(void) {
         /* 1. 检查 UART 接收 */
         while (HAL_UART_RX_AVAIL()) {
             uint8_t byte = HAL_UART_READ();
+            /* 短帧、校验失败、未知运动类型不会回调，因此无 ACK、光点不变。 */
             protocol_feed(byte, on_frame_received);
         }
 

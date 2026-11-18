@@ -19,14 +19,16 @@ typedef struct {
 } FrameData;
 
 /**
- * 解码一帧。返回解析后的结构体。
- * 若帧头不是 0xAA 或校验失败，返回 0；成功返回 1。
+ * 解码一帧。frame 必须是完整的 10 字节。
+ * 成功返回 1。帧头不是 0xAA、校验失败，或运动类型不是 0/1/2 时返回 0，且不写 out。
  */
 uint8_t protocol_decode(const uint8_t frame[10], FrameData* out);
 
 /**
  * 单字节接收状态机。用于从 UART 逐字节喂入。
- * 当完整接收一帧时调用 callback。
+ * 凑满 10 字节且校验通过、运动类型为 0/1/2 时调用 callback。
+ * 不足 10 字节不会回调。校验失败时在本窗口内重新寻找 0xAA。
+ * 未知运动类型整帧丢弃，不回调。不可重入，只在主循环调用。
  */
 typedef void (*frame_callback_t)(const FrameData* data);
 

@@ -51,6 +51,8 @@ def decode_frame(frame: bytes):
     if cs != frame[FRAME_SIZE - 1]:
         return None
     motion_type = frame[1]
+    if motion_type > 2:
+        return None
     x = (frame[2] << 8) | frame[3]
     y = (frame[4] << 8) | frame[5]
     vx = struct.unpack('b', frame[6:7])[0]
@@ -167,14 +169,20 @@ def main():
                         ack = bytes([0xCC, frame_seq & 0xFF])
                         ser.write(ack)
                         print(f"[ACK] seq={frame_seq & 0xFF}")
+                        buf = buf[FRAME_SIZE:]
                     else:
-                        print(f"[WARN] Invalid frame (checksum fail or bad header), dropping")
-                        # 显示原始hex
+                        cs = 0
+                        for b in frame_bytes[:FRAME_SIZE - 1]:
+                            cs ^= b
+                        aligned = frame_bytes[0] == FRAME_HEADER and cs == frame_bytes[FRAME_SIZE - 1]
                         hex_str = ' '.join(f'{b:02X}' for b in frame_bytes)
-                        print(f"       Raw: {hex_str}")
-
-                    # 消费已处理的字节
-                    buf = buf[FRAME_SIZE:]
+                        if aligned:
+                            print(f"[WARN] Unknown motion type, no ACK. Raw: {hex_str}")
+                            buf = buf[FRAME_SIZE:]
+                        else:
+                            print(f"[WARN] Invalid frame, resync. Raw: {hex_str}")
+                            nxt = frame_bytes.find(FRAME_HEADER, 1)
+                            buf = buf[FRAME_SIZE:] if nxt < 0 else buf[nxt:]
             else:
                 time.sleep(0.01)
     except KeyboardInterrupt:
