@@ -1,0 +1,63 @@
+name: 8051 firmware SDCC verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  firmware-8051:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install SDCC toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends sdcc make
+          sdcc --version
+          command -v packihx
+
+      - name: Test Intel HEX validator
+        run: python3 -m unittest discover -s tests -p 'test_intel_hex_validator.py' -v
+
+      - name: Compile 8051 firmware
+        run: make -C firmware PLATFORM=8051
+
+      - name: Verify HEX and record build provenance
+        env:
+          SOURCE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s firmware/build/firmware.ihx
+          test -s firmware/build/firmware.hex
+          python3 scripts/validate_intel_hex.py firmware/build/firmware.hex
+          {
+            echo "source_head_sha=$SOURCE_HEAD_SHA"
+            echo "checked_out_sha=$(git rev-parse HEAD)"
+            echo "runner=ubuntu-24.04"
+            sdcc --version
+            sha256sum firmware/build/firmware.ihx firmware/build/firmware.hex
+          } | tee firmware/build/build-evidence.txt
+          for report in firmware/build/firmware.mem firmware/build/firmware.map; do
+            if test -f "$report"; then
+              echo "Resource report: $report"
+              wc -c "$report"
+            fi
+          done
+
+      - name: Upload firmware build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-8051-sdcc
+          path: firmware/build/
+          if-no-files-found: warn
+          retention-days: 14

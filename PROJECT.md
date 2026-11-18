@@ -12,7 +12,7 @@
 
 src/control/main.cpp 接收文字（Windows 在线）、固定样例或计划文件。ai.cpp 构造请求并解析响应；plan.cpp 验证受限计划并生成带时间戳的点；preview.cpp 导出动画和 CSV；executor.cpp 固定工作区编码并按节拍等待 ACK；device.cpp 提供 Windows 串口及固件解码模拟。
 
-固件 C 源码参与 PC 互操作与 LED 测试。LED 驱动改为最近格点舍入，避免整数格坐标经量化后偏移；主机测试覆盖 64 个格点。51 UART 初始化将 TI 置为初始可发送状态，读取宏换为函数；目标编译与上板仍需确认。
+固件 C 源码参与 PC 互操作与 LED 测试。LED 驱动改为最近格点舍入，避免整数格坐标经量化后偏移；主机测试覆盖 64 个格点。51 UART 初始化将 TI 置为初始可发送状态，读取宏换为函数；SDCC 4.2.0 的 8051 目标编译与 HEX 格式校验已经在 v0.2.1 工作分支 CI 上通过，详见 [SDCC 验证记录](docs/firmware-sdcc-verification.md)；真实烧录、完整栈深度与上板联调仍未验收。
 
 新 AI/串口入口不共享旧 DSAI/serial 的降级或超时路径。新请求保留 TLS 校验，设置响应上限与截止时间。--demo 与 --provider-response 明确标记为离线来源。
 

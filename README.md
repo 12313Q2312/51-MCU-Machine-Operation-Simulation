@@ -54,6 +54,18 @@ ctest --test-dir build --output-on-failure
 
 浏览器打开输出目录中的 **preview.svg** 查看动画。该演示应生成 **121 个点、121 帧、1210 字节，计划用时 6 秒**。--simulate 用真实固件解码函数和虚拟时钟完成协议模拟，不代表已经连接开发板，也没有调用 AI。
 
+### 8051 固件（SDCC）
+
+在 Linux 上安装 SDCC、make 和 Python 3 后，于仓库根目录执行：
+
+~~~sh
+make -C firmware PLATFORM=8051
+python3 scripts/validate_intel_hex.py firmware/build/firmware.hex
+python3 -m unittest discover -s tests -p 'test_intel_hex_validator.py' -v
+~~~
+
+这只生成 HEX 并检查文件格式。烧录步骤在 [硬件验收清单](docs/HARDWARE_ACCEPTANCE.md)，目前没有在实板上执行过。
+
 输出目录必须尚不存在；再次运行时更换 --output，避免覆盖上一次记录。输出包括 plan.json、trajectory.csv、preview.svg 和 run.json，后者标明来源、执行方式、发送及 ACK 数量。
 
 ## 在线输入中文
@@ -70,7 +82,7 @@ ctest --test-dir build --output-on-failure
 
 ## 连接单片机
 
-先阅读[开发板联调说明](docs/user-guide.md#开发板联调)，确认板型、接线、固件与复位状态，再选择执行：
+先阅读[开发板联调说明](docs/user-guide.md#开发板联调)和[硬件验收清单](docs/HARDWARE_ACCEPTANCE.md)，确认板型、接线、固件与复位状态，再选择执行：
 
 ~~~powershell
 .\build\Release\MotionControl.exe --text "画一个圆" --execute --port COM3 --output artifacts\board-run
@@ -86,10 +98,11 @@ ctest --test-dir build --output-on-failure
 |---|---|
 | 计划解析与轨迹编译 | 离线测试覆盖正常动作、整圆、重复、非法字段/范围/时长/JSON |
 | 预览与 CLI | 固定样例、提供方响应样例、中文路径、输出文件及取消行为有集成测试 |
-| PC/固件协议互操作 | C++ 帧交给 firmware/protocol.c 解码，LED 驱动全部 64 个格点经主机测试 |
+| PC/固件协议互操作 | C++ 帧交给 firmware/protocol.c 解码；主机测试覆盖 64 个格点，以及短帧、超长噪声、未知运动类型和校验失败 |
 | 执行异常 | 模拟设备覆盖节拍、ACK 回绕/超时/错序、部分写入、取消和异常后的停止 |
 | 在线 AI | Windows 适配器已实现，真实 API 与中文指令理解准确率待验收 |
-| 开发板 | 串口执行接口已实现；目标固件编译、烧录、真实串口及 LED 演示待联调 |
+| 8051 固件 | SDCC 可以链接。直接寻址 RAM 只剩 1 字节；栈高水位没有在芯片上量过。数字和估算法见 [硬件验收清单](docs/HARDWARE_ACCEPTANCE.md) |
+| 开发板 | 烧录、真实串口 ACK、LED 和急停都还没有做。清单里的每一项都标了未在硬件上执行 |
 
 主线已通过 Windows/MSVC、Linux/GCC 和 Linux/Clang 的构建与测试。通过记录底部的 Artifacts 提供各平台程序和离线演示。也可用上方命令生成同类产物。[主线测试与演示下载](https://github.com/12313Q2312/51-MCU-Machine-Operation-Simulation/actions/runs/43028625440)
 
@@ -98,6 +111,21 @@ ctest --test-dir build --output-on-failure
 ~~~
 
 Windows 命令在可执行文件所在目录运行。Linux 使用 ./MotionControl，参数相同。详细测试覆盖见[实现验证记录](docs/control-verification-20261103.md)。
+
+## 测试
+
+主机测试随 CMake 注册，`ctest --test-dir build --output-on-failure` 会跑运动、旧协议编码、MotionControl、命令行、固件队列，以及 `test_firmware_protocol`。最后这项链接真实的 `firmware/protocol.c`、`led_matrix.c` 和 `queue.c`，检查 10 字节帧、不足 10 字节、超长噪声、未知运动类型、校验失败后的重新对齐，以及异常帧不改变 LED。它不编译 `firmware/main.c`，因为 8051 中断语法不能在 PC 上编译。
+
+Intel HEX 校验器的 7 个 Python 测试由固件工作流执行，命令见上一节。网页模拟器仍显示 32 帧队列，并且不会按固件规则拒绝未知运动类型；验收以固件源码和主机测试为准。
+
+## 已知限制
+
+- 直接寻址 RAM 的链接结果是 127 字节，最大空洞 1 字节。这不够再放新的全局变量。8 帧接收队列放在间接 RAM，只适用于 STC89C52 这一类有 256 字节内部 RAM 的芯片。
+- 硬件栈的空区间有 92 字节。按当前汇编粗算，主循环加 2 ms 扫描中断大约用 33 字节，还剩约 59 字节。这是读汇编得到的估计，不是芯片上的高水位；漏计库函数压栈就会更小。估算法写在硬件验收清单里。
+- 未知运动类型（不是 0/1/2）会被整帧丢弃，不回 ACK，也不改点阵。校验失败会在这 10 字节里重新找 `AA`。队列满（超过 8 帧且还没被主循环取走）时错误灯亮，这一帧没有 ACK。
+- 新执行器逐帧等待 ACK。旧的 `TrajectorySystem` 仍会在设置 `MCU_SERIAL_PORT` 后一次写出整段轨迹，并且只等一个 ACK。不要用旧入口做新协议的联调。
+- 没有远程急停帧。Ctrl+C 只停止 PC 后续发送。硬件急停是 P3.2 低电平，触发后固件熄灭点阵并停住，直到复位。
+- 在线 AI、真实烧录、串口波形、LED 亮灭和急停都没有在本仓库的当前版本上验收。Windows 上旧 `SerialPort::waitForAck` 的超时修正没有在 Linux 上执行过。
 
 ## 工程导航
 

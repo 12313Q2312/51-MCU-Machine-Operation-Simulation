@@ -27,3 +27,19 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 add_test(NAME test_control_cli COMMAND ${Python3_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/test_control_cli.py $<TARGET_FILE:MotionControl>
     ${CMAKE_CURRENT_SOURCE_DIR}/../docs/natural-language-plan.example.json)
+
+# Link the actual embedded queue implementation into a host-side boundary test.
+# Use explicit checks (not assert) so Release builds cannot skip validation.
+add_executable(test_firmware_queue test_firmware_queue.c ../firmware/queue.c)
+target_include_directories(test_firmware_queue PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../firmware)
+add_test(NAME test_firmware_queue COMMAND test_firmware_queue)
+
+# Real protocol.c / led_matrix.c / queue.c on the host. Explicit checks stay active in Release.
+add_executable(test_firmware_protocol
+    test_firmware_protocol.c
+    ../firmware/protocol.c
+    ../firmware/led_matrix.c
+    ../firmware/queue.c)
+target_compile_definitions(test_firmware_protocol PRIVATE MCU_HOST_TEST)
+target_include_directories(test_firmware_protocol PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../firmware)
+add_test(NAME test_firmware_protocol COMMAND test_firmware_protocol)

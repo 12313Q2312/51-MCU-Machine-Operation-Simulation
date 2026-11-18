@@ -119,37 +119,41 @@ uint32_t SerialPort::read(uint8_t* buffer, uint32_t size) {
 int SerialPort::waitForAck(uint32_t timeoutMs) {
     if (!isOpen_) return -1;
 
-    /* 设置临时读超时 */
-    COMMTIMEOUTS oldTimeouts, newTimeouts;
-    GetCommTimeouts(hComm_, &oldTimeouts);
+    /*
+     * 以前只在“读不到字节”时增加 elapsed。持续的非 0xCC 噪声，
+     * 或单独一个 0xCC 之后读序号立即返回，会使循环永不超时。
+     * 这里用 GetTickCount 作为截止时间，噪声和半个 ACK 都会在超时后返回 -1。
+     */
+    COMMTIMEOUTS oldTimeouts;
+    COMMTIMEOUTS newTimeouts;
+    if (!GetCommTimeouts(hComm_, &oldTimeouts)) return -1;
     newTimeouts = oldTimeouts;
-    newTimeouts.ReadTotalTimeoutConstant = timeoutMs;
-    SetCommTimeouts(hComm_, &newTimeouts);
+    newTimeouts.ReadIntervalTimeout = MAXDWORD;
+    newTimeouts.ReadTotalTimeoutMultiplier = 0;
+    newTimeouts.ReadTotalTimeoutConstant = 0;
+    if (!SetCommTimeouts(hComm_, &newTimeouts)) return -1;
 
-    uint32_t elapsed = 0;
-
-    while (elapsed < timeoutMs) {
-        uint8_t byte;
-        uint32_t n = read(&byte, 1);
+    int result = -1;
+    bool header = false;
+    const DWORD start = GetTickCount();
+    while ((GetTickCount() - start) < timeoutMs) {
+        uint8_t byte = 0;
+        DWORD n = 0;
+        if (!ReadFile(hComm_, &byte, 1, &n, NULL)) break;
         if (n == 0) {
-            /* 短暂等待后重试 */
             Sleep(10);
-            elapsed += 10;
             continue;
         }
-        if (byte == 0xCC) {
-            /* 读序列号 */
-            uint8_t seqByte;
-            uint32_t n = read(&seqByte, 1);
-            if (n == 1) {
-                SetCommTimeouts(hComm_, &oldTimeouts);
-                return static_cast<int>(seqByte);
-            }
+        if (!header) {
+            header = (byte == 0xCC);
+            continue;
         }
+        result = static_cast<int>(byte);
+        break;
     }
 
     SetCommTimeouts(hComm_, &oldTimeouts);
-    return -1;
+    return result;
 }
 
 #else
