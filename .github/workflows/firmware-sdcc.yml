@@ -27,11 +27,14 @@ jobs:
       - name: Test Intel HEX validator
         run: python3 -m unittest discover -s tests -p 'test_intel_hex_validator.py' -v
 
-      - name: Test SDCC area checker (synthetic fixtures only)
+      - name: Test SDCC area checker (real report fixture and faults)
         run: python3 -m unittest discover -s tests -p 'test_sdcc_areas.py' -v
 
       - name: Compile 8051 firmware
         run: make -C firmware PLATFORM=8051
+
+      - name: Enforce actual 8052 RAM area reports
+        run: python3 scripts/check_sdcc_areas.py firmware/build/firmware.map --mem firmware/build/firmware.mem
 
       - name: Verify HEX and record build provenance
         env:
