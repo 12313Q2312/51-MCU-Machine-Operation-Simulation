@@ -1,0 +1,8 @@
+ASxxxx Linker V03.00 + NoICE + sdld
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+DSEG                                00000000    0000007F =         127. bytes (REL,CON)
+OSEG                                00000014    0000000B =          11. bytes (REL,OVR)
+ISEG                                00000069    0000003B =          59. bytes (REL,CON)
+SSEG                                000000A4    0000005C =          92. bytes (REL,OVR)
